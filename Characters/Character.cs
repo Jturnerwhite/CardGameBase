@@ -19,7 +19,7 @@ namespace Characters {
 			HP = new Health(maxHP, maxHP);
 		}
 
-		public void ApplyDamage(int amount) {
+		public virtual void ApplyDamage(int amount) {
 			UnityEngine.Debug.Log(this.Name + " lost " + amount + " health");
 			HP.DepleteResource(amount);
 		}

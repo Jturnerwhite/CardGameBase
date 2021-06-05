@@ -42,20 +42,9 @@ namespace UI {
 			return ((float)Percent / 100f);
 		}
 
-		public void SetType(int type) {
+		public void SetColor(Color color) {
             var BarSprite = BarFront.GetComponent<SpriteRenderer>();
-            switch(type) {
-                case 1:
-                case 4:
-                    BarSprite.color = Color.red;
-                    break;
-                case 2:
-                    BarSprite.color = Color.green;
-                    break;
-                default:
-                    BarSprite.color = Color.blue;
-                    break;
-            }
+			BarSprite.color = color;
 		}
 	}
 }

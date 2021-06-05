@@ -9,10 +9,13 @@ namespace Resources {
 		
 		public int Amount;
 		public int MaxAmount;
+
+		public Color Color;
 		
-		public Resource(int amount, int maxAmount, string name, int type) {
+		public Resource(int amount, int maxAmount, string name, int type, Color color) {
 			Name = name;
 			Type = type;
+			Color = color;
 			SetAmount(amount);
 			SetMaxAmount(maxAmount);
 		}

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Resources {
     // A die is 'rolled' and has its value set to what is rolled.
     public class Die : Resource {
-        public Die(int amount = 0, int maxAmount = 6) : base(amount, maxAmount, "Die", (int)ResourceType.Die) {
+        public Die(int amount = 0, int maxAmount = 6) : base(amount, maxAmount, "Die", (int)ResourceType.Die, Color.blue) {
 
         }
 

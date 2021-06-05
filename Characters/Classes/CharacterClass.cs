@@ -1,6 +1,9 @@
 namespace Characters.Classes {
     public enum CharacterClass {
+        None,
         Warrior,
-        Zealot
+        Zealot,
+        Gambler,
+        Vanguard
     }
 }

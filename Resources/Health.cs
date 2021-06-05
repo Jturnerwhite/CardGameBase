@@ -5,8 +5,17 @@ using UnityEngine;
 namespace Resources {
     // These are so empty because the class it inherits, Resource, has all the basic functions
     public class Health : Resource {
-        public Health(int amount, int maxAmount) : base(amount, maxAmount, "Health", 1) {
+        public Health(int amount, int maxAmount) : base(amount, maxAmount, "Health", (int)ResourceType.Health, Color.red) {
 
+        }
+
+        public override void DepleteResource(int depletion)
+        {
+            base.DepleteResource(depletion);
+
+            if(Amount < 0) {
+                Amount = 0;
+            }
         }
     }
 }

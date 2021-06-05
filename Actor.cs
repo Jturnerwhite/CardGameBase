@@ -6,13 +6,16 @@ using UnityEngine.UI;
 using Resources;
 using Characters;
 using Characters.Classes;
+using Characters.Enemies;
 using Cards;
 using UI;
 
 public class Actor : MonoBehaviour
 {
 	public int ID;
-	public CharacterClass characterClass;
+	public CharacterClass CharacterClass;
+	public EnemyType EnemyType;
+
 	public ResourceUI ResourceUIPrefab;
 
 	public Canvas Canvas;
@@ -25,11 +28,17 @@ public class Actor : MonoBehaviour
 	}
 
 	void Awake () {
-		characterStats = CharacterFactory.Get(characterClass);
-		ourResources = new List<ResourceUI>();
 		this.Canvas.worldCamera = Camera.main;
 
+		if(CharacterClass == CharacterClass.None) {
+			characterStats = CharacterFactory.Get(EnemyType);
+		} else {
+			characterStats = CharacterFactory.Get(CharacterClass);
+		}
+
+		ourResources = new List<ResourceUI>();
 		MakeResourceBars();
+
 		//Print();
 	}
 

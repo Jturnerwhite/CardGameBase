@@ -3,6 +3,7 @@ namespace Resources {
     public enum ResourceType {
         Health,
         Stamina,
-        Die
+        Die,
+        Armor
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Resources {
     // These are so empty because the class it inherits, Resource, has all the basic functions
-    public class Stamina : Resource {
-        public Stamina(int amount, int maxAmount) : base(amount, maxAmount, "Stamina", (int)ResourceType.Stamina, Color.green) {
-            
+    public class Armor : Resource {
+        public Armor(int amount, int maxAmount) : base(amount, maxAmount, "Armor", (int)ResourceType.Armor, Color.gray) {
+
         }
 
         public override void DepleteResource(int depletion)

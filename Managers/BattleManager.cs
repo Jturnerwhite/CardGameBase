@@ -48,7 +48,7 @@ public class BattleManager : MonoBehaviour {
         Enemy = Instantiate(EnemyBase, new Vector3(6, 0), Quaternion.identity) as Actor;
         CardManager = Instantiate(CardManagerPrefab, new Vector3(0, -4.5f), Quaternion.identity);
         GetComponent<EventManager>().SetCardManager(CardManager);
-        CardManager.Init(CardFactory.GetDeck(Player.characterClass));
+        CardManager.Init(CardFactory.GetDeck(Player.CharacterClass));
     }
 
     public List<Actor> GetAllEnemies() {
@@ -56,5 +56,9 @@ public class BattleManager : MonoBehaviour {
         output.Add(Enemy);
 
         return output;
+    }
+
+    public Actor GetPlayer() {
+        return Player;
     }
 }

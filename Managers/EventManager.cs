@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cards;
 using UI;
+using System.Collections.Generic;
 
 public class EventManager : MonoBehaviour {
     private ActionManager ActionManager;
@@ -65,5 +66,21 @@ public class EventManager : MonoBehaviour {
             StateManager.CurrentCard.ToggleHighlight();
             StateManager.DeselectCard();
         }
+    }
+
+    public void PassTurnClicked() {
+        StateManager.PassTurn();
+
+        foreach(var enemy in BattleManager.GetAllEnemies()) {
+            EnemyTurnCommence(enemy);
+        }
+    }
+
+    public void EnemyTurnCommence(Actor enemy) {
+        Card cardSelected = enemy.GetComponent<EnemyAI>().ChooseCast();
+        List<Actor> targets = new List<Actor>();
+        targets.Add(BattleManager.GetPlayer());
+
+        ActionManager.CastCard(cardSelected, enemy, targets);
     }
 }

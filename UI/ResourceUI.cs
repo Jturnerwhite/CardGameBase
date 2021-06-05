@@ -17,7 +17,7 @@ namespace UI {
             currentResource = actorResource;
             //percentScale.transform.SetParent(actorTransform, false);
             //percentScale.transform.position = new Vector2((actorTransform.localPosition.x), (actorTransform.localPosition.y + counter));
-            percentScale.SetType(currentResource.Type);
+            percentScale.SetColor(currentResource.Color);
         }
 
         void FixedUpdate() {
