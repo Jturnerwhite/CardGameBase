@@ -4,33 +4,27 @@ using Cards;
 using Characters;
 using Resources;
 
-namespace Characters.Classes {
-	public class Warrior : Character {
-		public Stamina Stamina;
-
-		public Warrior(string name = "Warrior", int initialHP = 50) : base(name, initialHP) {
-			Stamina = new Stamina(100, 100);
+namespace Characters.Enemies {
+	public class Basic : Character {
+		public Basic(string name) : base(name, 50) {
 		}
 
 		public override Resource GetResource() {
-			return Stamina;
+			return null;
 		}
 
 		public override List<Resource> GetAllResources() {
 			List<Resource> resources = new List<Resource>();
 			resources.Add(this.HP);
-			resources.Add(this.Stamina);
 			return resources;
 		}
 
 		public override bool CanCastCard(Card card) {
-			return Stamina.CanCostBePaid(card.Cost);
+			return true;
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {
-			if(Stamina.CanCostBePaid(card.Cost)) {
-				Stamina.PayCost(card.Cost);
-			}
+			// No costs being paid
 		}
 	}
 }

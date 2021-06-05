@@ -5,15 +5,23 @@ using Resources;
 
 namespace UI {
     public class ResourceUI : MonoBehaviour {
-        private Resource currentResource;
-        private PercentScale percentScale;
 
-        public ResourceUI(Resource actorResource, Transform actorTransform, PercentScale bar, float counter) {
+        public PercentScale percentScale;
+        private Resource currentResource;
+
+        void Awake() {
+
+        }
+
+        public void Init(Resource actorResource) {
             currentResource = actorResource;
-            percentScale = bar;
-            percentScale.transform.SetParent(actorTransform, false);
-            percentScale.transform.position = new Vector2((actorTransform.localPosition.x), (actorTransform.localPosition.y + counter));
+            //percentScale.transform.SetParent(actorTransform, false);
+            //percentScale.transform.position = new Vector2((actorTransform.localPosition.x), (actorTransform.localPosition.y + counter));
             percentScale.SetType(currentResource.Type);
+        }
+
+        void FixedUpdate() {
+            updateValue();
         }
 
         public void updateValue() {

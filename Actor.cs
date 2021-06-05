@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using Resources;
 using Characters;
 using Characters.Classes;
@@ -12,7 +13,9 @@ public class Actor : MonoBehaviour
 {
 	public int ID;
 	public CharacterClass characterClass;
-	public PercentScale PercentPrefab;
+	public ResourceUI ResourceUIPrefab;
+
+	public Canvas Canvas;
 
 	public Character characterStats { get; set; }
 	public List<ResourceUI> ourResources { get; set; }
@@ -24,19 +27,22 @@ public class Actor : MonoBehaviour
 	void Awake () {
 		characterStats = CharacterFactory.Get(characterClass);
 		ourResources = new List<ResourceUI>();
+		this.Canvas.worldCamera = Camera.main;
 
 		MakeResourceBars();
-		Print();
+		//Print();
 	}
 
-	void Update () {
+	void FixedUpdate () {
+		if(characterStats.HP.Amount <= 0) {
+			characterStats.HP.Amount = 0;
+			Destroy(gameObject);
+		}
 	}
 
 	private void Print() {
 		var resource = characterStats.GetResource();
 		Debug.Log(characterStats.Name);
-		Debug.Log(characterStats.CardManager.Hand.Count);
-		Debug.Log(characterStats.CardManager.Hand.FirstOrDefault().Name);
 	}
 
 	private void MakeResourceBars() {
@@ -48,8 +54,19 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	private void MakeResourceUI (Resource myResource, float counter) {
-		var newPercentScale = Instantiate(PercentPrefab) as PercentScale;
-		ourResources.Add(new ResourceUI(myResource, this.transform, newPercentScale, counter));
+	private void MakeResourceUI (Resource resource, float counter) {
+		var newResourceUI = Instantiate(ResourceUIPrefab) as ResourceUI;
+		newResourceUI.Init(resource);
+		newResourceUI.transform.SetParent(transform, false);
+		newResourceUI.transform.position = new Vector2((transform.localPosition.x), (transform.localPosition.y + counter));
+		ourResources.Add(newResourceUI);
+	}
+
+	public void Click() {
+		Debug.Log("Actor Clicked");
+		var EventManager = Camera.main.GetComponent<EventManager>();
+		if(EventManager != null) {
+			EventManager.ActorClicked(this);
+		}
 	}
 }

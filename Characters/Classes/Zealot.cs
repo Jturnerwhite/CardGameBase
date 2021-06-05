@@ -7,9 +7,7 @@ using Resources;
 namespace Characters.Classes {
 	public class Zealot : Character {
 
-		//public Stamina Stamina { get; set; }
-
-		public Zealot() : base("Zealot") {
+		public Zealot(string name = "Zealot", int initialHP = 10) : base(name, initialHP) {
 		}
 
 		public override Resource GetResource() {

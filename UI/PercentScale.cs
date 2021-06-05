@@ -12,7 +12,7 @@ namespace UI {
 
 		// Use this for initialization
 		void Awake() {
-			VariableBar = transform.Find("Container");
+			VariableBar = transform;
 			BarFront = VariableBar.Find("BarFront");
 			UpdateScale(100);
 		}
@@ -24,6 +24,10 @@ namespace UI {
 		public void UpdateScale(int? newPercent = null) {
 			if(newPercent.HasValue) {
 				Percent = newPercent.Value;
+			}
+			
+			if (Percent < 0) {
+				Percent = 0;
 			}
 
 			if(VariableBar != null) {

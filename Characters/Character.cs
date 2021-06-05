@@ -12,19 +12,15 @@ namespace Characters {
 
 		public Health HP { get; set; }
 
-		public CardManager CardManager { get; set; }
 		public CharacterClass characterClass { get; set; }
 
-		public Character(string name) {
+		public Character(string name, int maxHP = 100) {
 			Name = name;
-			HP = new Health(100, 100);
-
-			CardManager = new CardManager();
-			CardManager.Deck = CardFactory.GetDeck(characterClass);
-			CardManager.DrawHand();
+			HP = new Health(maxHP, maxHP);
 		}
 
 		public void ApplyDamage(int amount) {
+			UnityEngine.Debug.Log(this.Name + " lost " + amount + " health");
 			HP.DepleteResource(amount);
 		}
 
