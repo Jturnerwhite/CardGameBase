@@ -35,11 +35,8 @@ public class DieUI : ResourceUI {
         int value = Resource.Amount;
         Color color = Resource.Color;
 
-        if(!IsDisabled && Resource.IsDisabled) {
-            color = Color.gray;
-        }
-
         IsDisabled = Resource.IsDisabled;
+        gameObject.SetActive(!Resource.IsDisabled);
         Set(value, color);
     }
 
