@@ -39,8 +39,6 @@ public class Actor : MonoBehaviour
 
 		ourResources = new List<ResourceUI>();
 		MakeResourceBars();
-
-		//Print();
 	}
 
 	void FixedUpdate () {
@@ -48,11 +46,6 @@ public class Actor : MonoBehaviour
 			characterStats.HP.Amount = 0;
 			Destroy(gameObject);
 		}
-	}
-
-	private void Print() {
-		var resource = characterStats.GetResource();
-		Debug.Log(characterStats.Name);
 	}
 
 	private void MakeResourceBars() {

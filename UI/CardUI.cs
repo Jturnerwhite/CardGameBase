@@ -46,7 +46,6 @@ namespace UI {
             Name.text = Card.Name;
             Description.text = Card.Description;
         }
-
         public void ToggleHighlight(bool? isSelected = null) {
             this.isSelected = (isSelected != null) ? isSelected.Value : !this.isSelected;
 

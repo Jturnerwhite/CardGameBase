@@ -26,7 +26,6 @@ public class EventManager : MonoBehaviour {
                 card.ToggleHighlight();
             } else {
                 Debug.Log("Can't cast that!");
-                Debug.Log(card.Card.Cost + " is not (" + card.Card.CostCheckType.ToString() + ")" + BattleManager.Player.characterStats.GetResource().Amount);
             }
         }
         else if (StateManager.CastState == CastState.SelectActors) {

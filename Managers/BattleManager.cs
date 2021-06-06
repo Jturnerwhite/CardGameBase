@@ -38,7 +38,6 @@ public class BattleManager : MonoBehaviour {
         DiscardDisplay.text = "Discard: " + CardManager.Discard.Count;
 
         if(Enemy == null) {
-            Debug.Log("You won the fight");
             FightWin.gameObject.SetActive(true);
         }
     }

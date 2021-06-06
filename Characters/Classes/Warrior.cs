@@ -23,12 +23,12 @@ namespace Characters.Classes {
 		}
 
 		public override bool CanCastCard(Card card) {
-			return Stamina.CanCostBePaid(card.Cost, card.CostCheckType);
+			return Stamina.CanCostBePaid(card.Cost.Amount, card.Cost.CheckType);
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {
-			if(Stamina.CanCostBePaid(card.Cost)) {
-				Stamina.PayCost(card.Cost);
+			if(Stamina.CanCostBePaid(card.Cost.Amount)) {
+				Stamina.PayCost(card.Cost.Amount);
 			}
 		}
 
