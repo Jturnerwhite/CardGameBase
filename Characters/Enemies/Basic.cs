@@ -6,7 +6,7 @@ using Resources;
 
 namespace Characters.Enemies {
 	public class BasicEnemy : Character {
-		public BasicEnemy(string name = "Basic") : base(name, 50) {
+		public BasicEnemy(string name = "Basic") : base(name, 25) {
 		}
 
 		public override Resource GetResource() {

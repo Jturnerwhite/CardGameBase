@@ -9,6 +9,8 @@ namespace Characters {
                     return new Zealot();
                 case CharacterClass.Vanguard:
                     return new Vanguard();
+                case CharacterClass.Gambler:
+                    return new Gambler();
                 case CharacterClass.Warrior:
                 default:
                     return new Warrior();

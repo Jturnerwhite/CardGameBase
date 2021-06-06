@@ -3,7 +3,6 @@ using Cards.Actions;
 
 namespace Cards {
     public class ScrapSlap : Card {
-        public override List<iAction> Actions { get; set; }
         public ScrapSlap() : base("Scrap Slap", "Deal 5 damage to 1 target", 5, 1) {
             
             Actions = new List<iAction>();

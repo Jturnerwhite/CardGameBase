@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cards.Actions;
+using Utils;
 
 namespace Cards {
     public abstract class Card {
@@ -7,14 +8,16 @@ namespace Cards {
         public int Cost { get; set; }
         public int TargetsNeeded { get; set; }
         public string Description { get; set; }
+        public AmountCheckType CostCheckType { get; set; }
 
-        public Card(string name, string description, int cost, int targetsNeeded) {
+        public Card(string name, string description, int cost, int targetsNeeded, AmountCheckType checkType = AmountCheckType.AboveOrEqual) {
             Name = name;
             Description = description;
             Cost = cost;
             TargetsNeeded = targetsNeeded;
+            CostCheckType = checkType;
         }
 
-        public abstract List<iAction> Actions { get; set; }
+        public List<iAction> Actions { get; set; }
     }
 }

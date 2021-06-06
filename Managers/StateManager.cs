@@ -47,21 +47,22 @@ public class StateManager : MonoBehaviour {
         SelectedActors = new List<Actor>();
     }
 
-    public void PassTurn() {
+    public bool PassTurn() {
         IsPlayerTurn = !IsPlayerTurn;
 
         if(IsPlayerTurn) {
             SetInitialCastState();
         }
+
+        return IsPlayerTurn;
     }
 
     public void SelectCard(CardUI card) {
-        Debug.Log("State Manager: Card Selected: " + card.card.Name);
         CurrentCard = card;
 
-        if(CurrentCard.card.TargetsNeeded == 0) {
+        if(CurrentCard.Card.TargetsNeeded == 0) {
             CastState = CastState.Casting;
-        } else if(CurrentCard.card.TargetsNeeded == -1) {
+        } else if(CurrentCard.Card.TargetsNeeded == -1) {
             SelectedActors.AddRange(BattleManager.GetAllEnemies());
             CastState = CastState.Casting;
         } else {
@@ -70,7 +71,6 @@ public class StateManager : MonoBehaviour {
     }
 
     public void DeselectCard() {
-        Debug.Log("State Manager: Card Deselected");
         CurrentCard = null;
         CastState = CastState.SelectCard;
     }
@@ -78,7 +78,7 @@ public class StateManager : MonoBehaviour {
     public void AddSelectedActor(Actor actor) {
         SelectedActors.Add(actor);
 
-        if(SelectedActors.Count == CurrentCard.card.TargetsNeeded) {
+        if(SelectedActors.Count == CurrentCard.Card.TargetsNeeded) {
             CastState = CastState.Casting;
         }
     }

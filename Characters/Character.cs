@@ -20,16 +20,23 @@ namespace Characters {
 		}
 
 		public virtual void ApplyDamage(int amount) {
-			UnityEngine.Debug.Log(this.Name + " lost " + amount + " health");
 			HP.DepleteResource(amount);
 		}
 
-		abstract public Resource GetResource();
+		public abstract Resource GetResource();
 
-		abstract public bool CanCastCard(Card card);
+		public abstract bool CanCastCard(Card card);
 
-		abstract public void CastCard(Card card, List<Character> targets);
+		public abstract void CastCard(Card card, List<Character> targets);
 
-		abstract public List<Resource> GetAllResources();
+		public abstract List<Resource> GetAllResources();
+
+		public virtual void StartTurnTrigger() {
+
+		}
+
+		public virtual void EndTurnTrigger() {
+			
+		}
 	}
 }

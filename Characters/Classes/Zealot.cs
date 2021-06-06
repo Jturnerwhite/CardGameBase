@@ -7,7 +7,7 @@ using Resources;
 namespace Characters.Classes {
 	public class Zealot : Character {
 
-		public Zealot(string name = "Zealot", int initialHP = 10) : base(name, initialHP) {
+		public Zealot(string name = "Zealot", int initialHP = 20) : base(name, initialHP) {
 		}
 
 		public override Resource GetResource() {
@@ -21,11 +21,10 @@ namespace Characters.Classes {
 		}
 		
 		public override bool CanCastCard(Card card) {
-			return HP.CanCostBePaid(card.Cost);
+			return HP.CanCostBePaid(card.Cost, card.CostCheckType);
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {
-			UnityEngine.Debug.Log(this.Name + " casts " + card.Name + ", using " + card.Cost + " " + HP.Name);
 			if(CanCastCard(card)) {
 				HP.PayCost(card.Cost);
 			}

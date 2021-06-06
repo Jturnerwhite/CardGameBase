@@ -14,11 +14,11 @@ namespace UI {
         public Text Name;
         public Text Description;
 
-        public Card card;
+        public Card Card;
         private bool isSelected;
 
         public void Initialize(Card card) {
-            this.card = card;
+            this.Card = card;
         }
 
         void Awake() {
@@ -41,10 +41,10 @@ namespace UI {
         // Update is called once per frame
         void Update()
         {
-            Description.text = card.Description;
-            Cost.text = card.Cost.ToString();
-            Name.text = card.Name;
-            Description.text = card.Description;
+            Description.text = Card.Description;
+            Cost.text = Card.Cost.ToString();
+            Name.text = Card.Name;
+            Description.text = Card.Description;
         }
 
         public void ToggleHighlight(bool? isSelected = null) {
@@ -58,7 +58,6 @@ namespace UI {
         }
 
         public void Discard() {
-            Debug.Log("This card was deleted!");
             Destroy(gameObject);
         }
     }

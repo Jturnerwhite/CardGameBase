@@ -21,8 +21,13 @@ public class EventManager : MonoBehaviour {
 
     public void CardClicked(CardUI card) {
         if (StateManager.CastState == CastState.SelectCard) {
-            StateManager.SelectCard(card);
-            card.ToggleHighlight();
+            if(BattleManager.Player.CanCast(card.Card)) {
+                StateManager.SelectCard(card);
+                card.ToggleHighlight();
+            } else {
+                Debug.Log("Can't cast that!");
+                Debug.Log(card.Card.Cost + " is not (" + card.Card.CostCheckType.ToString() + ")" + BattleManager.Player.characterStats.GetResource().Amount);
+            }
         }
         else if (StateManager.CastState == CastState.SelectActors) {
             if(card == StateManager.CurrentCard) {
@@ -41,7 +46,6 @@ public class EventManager : MonoBehaviour {
     }
 
     public void ActorClicked(Actor actor) {
-        Debug.Log("Actor Clicked");
         if (StateManager.CastState == CastState.SelectActors) {
             if(StateManager.SelectedActors.Contains(actor)) {
                 StateManager.RemoveSelectedActor(actor);
@@ -56,7 +60,7 @@ public class EventManager : MonoBehaviour {
     }
 
     public void CastCommence() {
-        bool castSuccessful = ActionManager.CastCard(StateManager.CurrentCard.card, BattleManager.Player, StateManager.SelectedActors);
+        bool castSuccessful = ActionManager.CastCard(StateManager.CurrentCard.Card, BattleManager.Player, StateManager.SelectedActors);
 
         if(castSuccessful) {
             StateManager.CurrentCard.ToggleHighlight();
@@ -70,10 +74,14 @@ public class EventManager : MonoBehaviour {
 
     public void PassTurnClicked() {
         StateManager.PassTurn();
+        CardManager.DiscardHand();
+        BattleManager.Player.EndTurnTrigger();
 
         foreach(var enemy in BattleManager.GetAllEnemies()) {
             EnemyTurnCommence(enemy);
         }
+
+        PlayerTurnCommence();
     }
 
     public void EnemyTurnCommence(Actor enemy) {
@@ -82,5 +90,11 @@ public class EventManager : MonoBehaviour {
         targets.Add(BattleManager.GetPlayer());
 
         ActionManager.CastCard(cardSelected, enemy, targets);
+    }
+
+    public void PlayerTurnCommence() {
+        StateManager.PassTurn();
+        CardManager.DrawHand();
+        BattleManager.Player.StartTurnTrigger();
     }
 }

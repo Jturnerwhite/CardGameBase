@@ -39,7 +39,7 @@ public class CardManager : MonoBehaviour {
 
     public void CastCard(CardUI cardUI) {
         cardUI.Discard();
-        DiscardFromHand(cardUI.card);
+        DiscardFromHand(cardUI.Card);
     }
 
     public List<Card> DrawHand(int count = 3) {
@@ -53,6 +53,18 @@ public class CardManager : MonoBehaviour {
         }
 
         return Hand;
+    }
+
+    public void DiscardHand() {
+        var cardUIs = GetComponentsInChildren<CardUI>();
+        if(cardUIs != null) {
+            foreach(var cardUI in cardUIs) {
+                cardUI.Discard();
+            }
+        }
+
+        Discard.AddRange(Hand);
+        Hand = new List<Card>();
     }
 
     public void DiscardFromHand(Card card) {
@@ -88,7 +100,7 @@ public class CardManager : MonoBehaviour {
     public void ResetDeck() {
         Deck.AddRange(Discard);
         Shuffle(Deck);
-        Deck = new List<Card>();
+        Discard = new List<Card>();
     }
 
     public void Shuffle(IList<Card> list)  {  

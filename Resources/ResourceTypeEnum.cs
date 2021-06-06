@@ -4,6 +4,7 @@ namespace Resources {
         Health,
         Stamina,
         Die,
-        Armor
+        Armor,
+        Other
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Resources {
 	public abstract class Resource {
@@ -10,6 +11,8 @@ namespace Resources {
 		public int Amount;
 		public int MaxAmount;
 
+		public bool IsDisabled;
+
 		public Color Color;
 		
 		public Resource(int amount, int maxAmount, string name, int type, Color color) {
@@ -18,52 +21,80 @@ namespace Resources {
 			Color = color;
 			SetAmount(amount);
 			SetMaxAmount(maxAmount);
+			IsDisabled = false;
 		}
 
-		public int GetAmount() {
+		public virtual Resource[] GetSubResources() {
+			return null;
+		}
+
+		public virtual int GetAmount() {
 			return Amount;
 		}
-		public int GetMaxAmount() {
+		public virtual int GetMaxAmount() {
 			return MaxAmount;
 		}
-		public float GetCurrentPercent(int adjustment = 0) {
+		public virtual float GetCurrentPercent(int adjustment = 0) {
 			return (float)(Amount + adjustment) / (float)MaxAmount;
 		}
 
-		public void SetMaxAmount(int maxAmount) {
+		public virtual void SetMaxAmount(int maxAmount) {
 			MaxAmount = maxAmount;
 		}
 
-		public void SetAmount(int amount) {
+		public virtual void SetAmount(int amount) {
 			Amount = amount;
 		}
 
-		public void SupplyResource(int addition) {
+		public virtual void SupplyResource(int addition, bool allowOverflow = false) {
 			SetAmount(Amount + addition);
+
+			if(!allowOverflow && Amount > MaxAmount) {
+				Amount = MaxAmount;
+			}
 		}
 		
 		public virtual void DepleteResource(int depletion) {
 			SetAmount(Amount - depletion);
 		}
 
-		public void PayCost(int cost) {
+		public virtual void PayCost(int cost, AmountCheckType checkType = AmountCheckType.AboveOrEqual, int adjustment = 0) {
 			DepleteResource(cost);
 		}
 
-		public bool CanCostBePaid(int cost) {
-			return MeetsThreshold(cost, false, true, true);
+		public virtual bool CanCostBePaid(int cost, AmountCheckType checkType = AmountCheckType.AboveOrEqual, int adjustment = 0) {
+			return MeetsThreshold(cost, false, checkType, adjustment);
 		}
 
 		// 'above' is false if checking Resource is below threshold, otherwise true
-		public bool MeetsThreshold(int threshold, bool isPercent, bool above, bool allowEqual, int adjustment = 0) {
-			var outcome = false;
-			if(!isPercent)
-				outcome = (above && Amount > threshold) || (!above && Amount < threshold) || (allowEqual && Amount == threshold);           
-			else {
-				float currentPercent = GetCurrentPercent(adjustment) * 100f;
-				outcome = (above && currentPercent > threshold) || (!above && currentPercent < (float)threshold) || (allowEqual && currentPercent == threshold);
+        // Adjustment is used for "Check before cast amount" threshold checks
+        // Otherwise, the threshold check will always be comparing a resource "post-cast" of this card
+		public virtual bool MeetsThreshold(int threshold, bool isPercent, AmountCheckType checkType, int adjustment = 0) {
+			var checkAmount = (isPercent) ? (GetCurrentPercent(adjustment) * 100f) : Amount + adjustment;
+			bool output = false;
+			switch(checkType) {
+				case AmountCheckType.Not:
+					output = checkAmount != threshold;
+					break;
+				case AmountCheckType.BelowNotEqual:
+					output = checkAmount < threshold;
+					break;
+				case AmountCheckType.BelowOrEqual:
+					output = checkAmount <= threshold;
+					break;
+				case AmountCheckType.AboveNotEqual:
+					output = checkAmount > threshold;
+					break;
+				case AmountCheckType.AboveOrEqual:
+					output = checkAmount >= threshold;
+					break;
+				case AmountCheckType.Exact:
+				default:
+					output = checkAmount == threshold;
+					break;
 			}
-			return outcome;
+
+			return output;
 		}
 	}
 }

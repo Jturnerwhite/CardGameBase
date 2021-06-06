@@ -13,6 +13,8 @@ namespace Cards
                     return GetWarriorDeck();
                 case CharacterClass.Vanguard:
                     return GetVanguardDeck();
+                case CharacterClass.Gambler:
+                    return GetGamblerDeck();
                 default:
                     return GetWarriorDeck();
             }
@@ -45,6 +47,18 @@ namespace Cards
             deck.Add(new ArmorUp());
             deck.Add(new ArmorUp());
             deck.Add(new ArmorUp());
+            return deck;
+        }
+        
+        public static List<Card> GetGamblerDeck() {
+            List<Card> deck = new List<Card>();
+            deck.Add(new Jackpot());
+            deck.Add(new SnakeEye());
+            deck.Add(new LowBlow());
+            deck.Add(new LowBlow());
+            deck.Add(new LowBlow());
+            deck.Add(new HighRoller());
+            deck.Add(new HighRoller());
             return deck;
         }
     }

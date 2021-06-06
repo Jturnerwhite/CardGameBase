@@ -16,6 +16,7 @@ public class Actor : MonoBehaviour
 	public CharacterClass CharacterClass;
 	public EnemyType EnemyType;
 
+	public ResourceUI HealthUIprefab;
 	public ResourceUI ResourceUIPrefab;
 
 	public Canvas Canvas;
@@ -55,27 +56,52 @@ public class Actor : MonoBehaviour
 	}
 
 	private void MakeResourceBars() {
+		float offset = 2f; //1.5 orignally
+		int count = 0;
+
+		MakeHealthUI(characterStats.HP, offset);
+		count++;
+
 		List<Resource> resources = characterStats.GetAllResources();
-		float counter = 1.5f;
 		foreach(var resource in resources) {
-			MakeResourceUI(resource, counter);
-			counter -= 0.36f;
+			// skip HP, we already did it
+			if(resource.Type == (int)ResourceType.Health) {
+				continue;
+			}
+			//0.36f for bars originally
+			MakeResourceUI(resource, (offset - (0.55f * count)));
+			count++;
 		}
 	}
 
-	private void MakeResourceUI (Resource resource, float counter) {
+	private void MakeHealthUI(Resource resource, float offset) {
+		var newResourceUI = Instantiate(HealthUIprefab) as ResourceUI;
+		newResourceUI.Init(resource, transform, new Vector2((transform.localPosition.x), (transform.localPosition.y + offset)));
+		ourResources.Add(newResourceUI);
+	}
+
+	private void MakeResourceUI (Resource resource, float offset) {
 		var newResourceUI = Instantiate(ResourceUIPrefab) as ResourceUI;
-		newResourceUI.Init(resource);
-		newResourceUI.transform.SetParent(transform, false);
-		newResourceUI.transform.position = new Vector2((transform.localPosition.x), (transform.localPosition.y + counter));
+		newResourceUI.Init(resource, transform, new Vector2((transform.localPosition.x), (transform.localPosition.y + offset)));
 		ourResources.Add(newResourceUI);
 	}
 
 	public void Click() {
-		Debug.Log("Actor Clicked");
 		var EventManager = Camera.main.GetComponent<EventManager>();
 		if(EventManager != null) {
 			EventManager.ActorClicked(this);
 		}
+	}
+
+	public bool CanCast(Card card) {
+		return characterStats.CanCastCard(card);
+	}
+
+	public void StartTurnTrigger() {
+		characterStats.StartTurnTrigger();
+	}
+
+	public void EndTurnTrigger() {
+		characterStats.EndTurnTrigger();
 	}
 }
