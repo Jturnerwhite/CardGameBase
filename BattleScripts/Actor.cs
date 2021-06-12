@@ -12,7 +12,6 @@ using UI;
 
 public class Actor : MonoBehaviour
 {
-	public int ID;
 	public CharacterClass CharacterClass;
 	public EnemyType EnemyType;
 
@@ -24,25 +23,28 @@ public class Actor : MonoBehaviour
 	public Character characterStats { get; set; }
 	public List<ResourceUI> ourResources { get; set; }
 
-	public void Initialize() {
-		ID = this.GetInstanceID();
-	}
-
-	void Awake () {
-		this.Canvas.worldCamera = Camera.main;
-
-		if(CharacterClass == CharacterClass.None) {
-			characterStats = CharacterFactory.Get(EnemyType);
+	public void Initialize(Character stats) {
+		if(stats == null) {
+			if(CharacterClass == CharacterClass.None) {
+				characterStats = CharacterFactory.Get(EnemyType);
+			} else {
+				characterStats = CharacterFactory.Get(CharacterClass);
+			}
 		} else {
-			characterStats = CharacterFactory.Get(CharacterClass);
+			characterStats = stats;
+			CharacterClass = stats.characterClass;
 		}
 
 		ourResources = new List<ResourceUI>();
 		MakeResourceBars();
 	}
 
+	void Start () {
+		this.Canvas.worldCamera = Camera.main;
+	}
+
 	void FixedUpdate () {
-		if(characterStats.HP.Amount <= 0) {
+		if(characterStats != null && characterStats.HP.Amount <= 0) {
 			characterStats.HP.Amount = 0;
 			Destroy(gameObject);
 		}

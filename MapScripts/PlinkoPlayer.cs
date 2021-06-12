@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Characters.Classes;
 using UnityEngine;
 
 public class PlinkoPlayer : MonoBehaviour
@@ -8,17 +9,18 @@ public class PlinkoPlayer : MonoBehaviour
     private Collider2D Collider;
     private DragAndDrop DragAndDrop;
 
+    public SpriteRenderer[] ClassSpritePrefabs;
+
     // Start is called before the first frame update
     void Awake()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
         Collider = GetComponent<Collider2D>();
         DragAndDrop = GetComponent<DragAndDrop>();
-
-        Rigidbody.bodyType = RigidbodyType2D.Static;
     }
 
     void Start() {
+        Rigidbody.bodyType = RigidbodyType2D.Static;
         DragAndDrop.IsDraggable = true;
     }
 
@@ -26,6 +28,14 @@ public class PlinkoPlayer : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Init(CharacterClass type) {
+        var match = ClassSpritePrefabs[(int)type];
+        var newInst = Instantiate(match);
+        newInst.transform.SetParent(transform);
+        newInst.transform.localPosition = new Vector3(-0.025f, 0f, -1f);
+        newInst.transform.localScale = new Vector3(0.25f, 0.25f, 1f);
     }
 
     public void OnDrag() {

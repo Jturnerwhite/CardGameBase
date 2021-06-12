@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cards;
+using Characters.Classes;
 
 //D:\UnityGithub\WhiteOpal\CardGame\Assets\Scripts\Combat\ConcreteClasses\Cards
 public class BattleManager : MonoBehaviour {
 
-    public Actor PlayerBase;
+    public Actor[] ClassPrefabs;
     public Actor EnemyBase;
 
     public Text DeckDisplay;
@@ -43,8 +44,14 @@ public class BattleManager : MonoBehaviour {
     }
 
     public void Initialize() {
-        Player = Instantiate(PlayerBase, new Vector3(-6, 0), Quaternion.identity) as Actor;
+        var indexToUse = (RunManager.Character != null) ? RunManager.Character.characterClass : CharacterClass.Warrior;
+
+        Player = Instantiate(ClassPrefabs[(int)indexToUse], new Vector3(-6, 0), Quaternion.identity) as Actor;
+        Player.Initialize(RunManager.Character);
+
         Enemy = Instantiate(EnemyBase, new Vector3(6, 0), Quaternion.identity) as Actor;
+        Enemy.Initialize(null);
+
         CardManager = Instantiate(CardManagerPrefab, new Vector3(0, -4.5f), Quaternion.identity);
         GetComponent<EventManager>().SetCardManager(CardManager);
         CardManager.Init(CardFactory.GetDeck(Player.CharacterClass));

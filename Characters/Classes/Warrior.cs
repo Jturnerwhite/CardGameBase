@@ -8,7 +8,7 @@ namespace Characters.Classes {
 	public class Warrior : Character {
 		public Stamina Stamina;
 
-		public Warrior(string name = "Warrior", int initialHP = 20) : base(name, initialHP) {
+		public Warrior(string name = "Warrior", int initialHP = 20) : base(name, initialHP, CharacterClass.Warrior) {
 			Stamina = new Stamina(10, 10);
 		}
 

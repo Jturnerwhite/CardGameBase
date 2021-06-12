@@ -10,7 +10,7 @@ namespace Characters.Classes {
 
 		public DiceWrapper Dice;
 
-		public Gambler(string name = "Gambler", int initialHP = 20) : base(name, initialHP) {
+		public Gambler(string name = "Gambler", int initialHP = 20) : base(name, initialHP, CharacterClass.Gambler) {
 			Dice = new DiceWrapper(2, 5);
 		}
 

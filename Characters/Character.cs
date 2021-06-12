@@ -14,9 +14,10 @@ namespace Characters {
 
 		public CharacterClass characterClass { get; set; }
 
-		public Character(string name, int maxHP = 100) {
+		public Character(string name, int maxHP = 100, CharacterClass characterClass = CharacterClass.None) {
 			Name = name;
 			HP = new Health(maxHP, maxHP);
+			this.characterClass = characterClass;
 		}
 
 		public virtual void ApplyDamage(int amount) {

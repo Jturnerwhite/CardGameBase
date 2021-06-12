@@ -9,7 +9,7 @@ namespace Characters.Classes {
 
         private Resource Armor;
 
-		public Vanguard(string name = "Vanguard", int initialHP = 20) : base(name, initialHP) {
+		public Vanguard(string name = "Vanguard", int initialHP = 20) : base(name, initialHP, CharacterClass.Vanguard) {
             Armor = new Armor(0 , 10);
 		}
 
