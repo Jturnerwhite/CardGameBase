@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
-{
-    public void ChangeToCharacterSelect() {
+public static class SceneChanger {
+    public static void ChangeToCharacterSelect() {
         ChangeScene("CharacterSelect");
     }
 
-    public void ChangeToOptionsScene() {
+    public static void ChangeToOptionsScene() {
         ChangeScene("OptionsScene");
     }
 
-    public void ChangeToMapScene() {
+    public static void ChangeToMapScene() {
         ChangeScene("MapScene");
     }
 
-    public void ChangeToBattleScene() {
+    public static void ChangeToBattleScene() {
         ChangeScene("BattleScene");
     }
 
-    public void ChangeScene(string sceneName) {
+    public static void ChangeScene(string sceneName) {
         SceneManager.LoadScene(sceneName);
     }
 }

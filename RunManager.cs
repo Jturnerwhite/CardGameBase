@@ -13,5 +13,16 @@ public static class RunManager
     public static void SetCharacter(CharacterClass cClass) {
         Character = CharacterFactory.Get(cClass);
         Deck = CardFactory.GetDeck(cClass);
+        Character.CardManager.Init(Deck);
+    }
+
+    public static void CompleteBattle(Character character) {
+        Character = character;
+        Character.CardManager.HardReset();
+        Deck = Character.CardManager.Deck;
+    }
+
+    public static void PrepareForBattle() {
+        Character.CardManager.SetCards(Deck);
     }
 }

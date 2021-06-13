@@ -7,7 +7,7 @@ public class EventManager : MonoBehaviour {
     private ActionManager ActionManager;
     private BattleManager BattleManager;
     private StateManager StateManager;
-    private CardManager CardManager;
+    private CardUIManager CardUIManager;
 
     void Awake() {
         this.ActionManager = transform.GetComponent<ActionManager>();
@@ -15,8 +15,8 @@ public class EventManager : MonoBehaviour {
         this.StateManager = transform.GetComponent<StateManager>();
     }
 
-    public void SetCardManager(CardManager CardManager) {
-        this.CardManager = CardManager;
+    public void SetCardManager(CardUIManager CardUIManager) {
+        this.CardUIManager = CardUIManager;
     }
 
     public void CardClicked(CardUI card) {
@@ -63,7 +63,7 @@ public class EventManager : MonoBehaviour {
 
         if(castSuccessful) {
             StateManager.CurrentCard.ToggleHighlight();
-            CardManager.CastCard(StateManager.CurrentCard);
+            //CardUIManager.CastCard(StateManager.CurrentCard);
             StateManager.CompleteCast();
         } else {
             StateManager.CurrentCard.ToggleHighlight();
@@ -73,7 +73,7 @@ public class EventManager : MonoBehaviour {
 
     public void PassTurnClicked() {
         StateManager.PassTurn();
-        CardManager.DiscardHand();
+        //CardUIManager.DiscardHand();
         BattleManager.Player.EndTurnTrigger();
 
         foreach(var enemy in BattleManager.GetAllEnemies()) {
@@ -93,7 +93,7 @@ public class EventManager : MonoBehaviour {
 
     public void PlayerTurnCommence() {
         StateManager.PassTurn();
-        CardManager.DrawHand();
+        //CardUIManager.DrawHand();
         BattleManager.Player.StartTurnTrigger();
     }
 }

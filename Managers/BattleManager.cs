@@ -18,8 +18,8 @@ public class BattleManager : MonoBehaviour {
     public Actor Player {get;set;}
     public Actor Enemy {get;set;}
 
-    public CardManager CardManagerPrefab;
-    public CardManager CardManager {get;set;}
+    public CardUIManager CardManagerPrefab;
+    public CardUIManager CardUIManager {get;set;}
 
     void Awake() {
         Initialize();
@@ -35,26 +35,38 @@ public class BattleManager : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        DeckDisplay.text = "Deck: " + CardManager.Deck.Count;
-        DiscardDisplay.text = "Discard: " + CardManager.Discard.Count;
+        DeckDisplay.text = "Deck: " + CardUIManager.DeckCount;
+        DiscardDisplay.text = "Discard: "  + CardUIManager.DiscardCount;
 
         if(Enemy == null) {
             FightWin.gameObject.SetActive(true);
+            SceneChanger.ChangeToMapScene();
+            RunManager.CompleteBattle(Player.characterStats);
         }
     }
 
     public void Initialize() {
-        var indexToUse = (RunManager.Character != null) ? RunManager.Character.characterClass : CharacterClass.Warrior;
-
-        Player = Instantiate(ClassPrefabs[(int)indexToUse], new Vector3(-6, 0), Quaternion.identity) as Actor;
-        Player.Initialize(RunManager.Character);
+        InitPlayer();
+        InitCardManager();
 
         Enemy = Instantiate(EnemyBase, new Vector3(6, 0), Quaternion.identity) as Actor;
         Enemy.Initialize(null);
 
-        CardManager = Instantiate(CardManagerPrefab, new Vector3(0, -4.5f), Quaternion.identity);
-        GetComponent<EventManager>().SetCardManager(CardManager);
-        CardManager.Init(CardFactory.GetDeck(Player.CharacterClass));
+        Player.StartTurnTrigger();
+    }
+
+    public void InitPlayer() {
+        var indexToUse = (RunManager.Character != null) ? RunManager.Character.CharacterClass : CharacterClass.Warrior;
+
+        Player = Instantiate(ClassPrefabs[(int)indexToUse], new Vector3(-6, 0), Quaternion.identity) as Actor;
+        Player.Initialize(RunManager.Character);
+    }
+
+    public void InitCardManager() {
+        CardUIManager = Instantiate(CardManagerPrefab, new Vector3(0, -4.5f), Quaternion.identity);
+        GetComponent<EventManager>().SetCardManager(CardUIManager);
+        CardUIManager.Init(Player.characterStats);
+        Player.characterStats.CardManager.SetCards(CardFactory.GetDeck(Player.CharacterClass));
     }
 
     public List<Actor> GetAllEnemies() {

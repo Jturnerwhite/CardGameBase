@@ -27,6 +27,10 @@ namespace Cards
             deck.Add(new HorizonStrike());
             deck.Add(new Strike());
             deck.Add(new Strike());
+            deck.Add(new Rummage());
+            deck.Add(new Rummage());
+            deck.Add(new Rummage());
+            deck.Add(new Rummage());
             return deck;
         }
         

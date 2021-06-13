@@ -17,22 +17,24 @@ public class EnemyAI : MonoBehaviour
 
     private System.Random rng;
 
-    private Actor ActorComp;
-    List<Card> StartingDeck;
+    private CardManager cardManager;
 
-    void Awake() {
+    void Start() {
         this.ActionManager = Camera.main.GetComponent<ActionManager>();
         this.BattleManager = Camera.main.GetComponent<BattleManager>();
         rng = new System.Random();
 
-        ActorComp = GetComponent<Actor>();
-        StartingDeck = new List<Card>();
+        var ActorComp = GetComponent<Actor>();
+        cardManager = ActorComp.characterStats.CardManager;
+
+        List<Card> StartingDeck = new List<Card>();
         StartingDeck.Add(new Strike());
         StartingDeck.Add(new Strike());
         StartingDeck.Add(new Strike());
         StartingDeck.Add(new Strike());
         StartingDeck.Add(new Strike());
         StartingDeck.Add(new Strike());
+        cardManager.Init(StartingDeck);
     }
 
     void FixedUpdate() {
@@ -40,8 +42,8 @@ public class EnemyAI : MonoBehaviour
     }
 
     public Card ChooseCast() {
-        Shuffle(StartingDeck);
-        return StartingDeck.First();
+        cardManager.Shuffle(cardManager.Deck);
+        return cardManager.TopDeck();
     }
 
     public void Shuffle(IList<Card> list)  {  

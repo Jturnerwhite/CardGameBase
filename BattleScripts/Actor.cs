@@ -32,7 +32,7 @@ public class Actor : MonoBehaviour
 			}
 		} else {
 			characterStats = stats;
-			CharacterClass = stats.characterClass;
+			CharacterClass = stats.CharacterClass;
 		}
 
 		ourResources = new List<ResourceUI>();

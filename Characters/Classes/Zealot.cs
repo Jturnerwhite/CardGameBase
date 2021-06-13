@@ -28,6 +28,7 @@ namespace Characters.Classes {
 			if(CanCastCard(card)) {
 				HP.PayCost(card.Cost.Amount);
 			}
+			CardManager.CastCard(card);
 		}
 	}
 }

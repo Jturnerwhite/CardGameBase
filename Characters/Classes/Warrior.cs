@@ -30,10 +30,13 @@ namespace Characters.Classes {
 			if(Stamina.CanCostBePaid(card.Cost.Amount)) {
 				Stamina.PayCost(card.Cost.Amount);
 			}
+
+			CardManager.CastCard(card);
 		}
 
 		public override void StartTurnTrigger() {
 			Stamina.SupplyResource(10);
+			CardManager.DrawHand(3);
 		}
 	}
 }

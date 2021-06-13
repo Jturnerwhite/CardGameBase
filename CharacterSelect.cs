@@ -5,12 +5,6 @@ using Characters.Classes;
 
 public class CharacterSelect : MonoBehaviour
 {
-    private SceneChanger SceneChanger;
-
-    void Awake() {
-        SceneChanger = GetComponent<SceneChanger>();
-    }
-
     public void OnWarriorSelect() {
         OnCharacterSelect(CharacterClass.Warrior);
     }

@@ -5,7 +5,6 @@ using Characters.Classes;
 
 public class MapManager : MonoBehaviour
 {
-    public SceneChanger SceneChanger;
     public PlinkoPlayer Player;
 
     public Transform StartPosition;
@@ -15,11 +14,10 @@ public class MapManager : MonoBehaviour
 
     void Awake()
     {
-        SceneChanger = GetComponent<SceneChanger>();
         Player = Instantiate(PlayerPrefab, StartPosition.position, Quaternion.identity);
         if(RunManager.Character != null) {
-            Debug.Log(RunManager.Character.characterClass.ToString());
-            Player.Init(RunManager.Character.characterClass);
+            Debug.Log(RunManager.Character.CharacterClass.ToString());
+            Player.Init(RunManager.Character.CharacterClass);
         } else {
             Player.Init(CharacterClass.Warrior);
         }
@@ -33,6 +31,7 @@ public class MapManager : MonoBehaviour
 
     public void Event(Zone zone) 
     {
+        RunManager.PrepareForBattle();
         SceneChanger.ChangeToBattleScene();
         Debug.Log("Zone triggered: " + zone.gameObject.name);
     }
