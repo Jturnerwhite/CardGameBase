@@ -42,14 +42,10 @@ namespace UI {
         // Update is called once per frame
         void Update()
         {
-            try {
-                Description.text = Card.Description;
-                Cost.text = Card.Cost.ToString();
-                Name.text = Card.Name;
-                Description.text = Card.Description;
-            } catch(Exception e) {
-                Debug.Log($"Card Update Fail for: {Card.Name}");
-            }
+            Description.text = Card.Description;
+            Cost.text = Card.Cost.ToString();
+            Name.text = Card.Name;
+            Description.text = Card.Description;
         }
         public void ToggleHighlight(bool? isSelected = null) {
             this.isSelected = (isSelected != null) ? isSelected.Value : !this.isSelected;

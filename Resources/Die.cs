@@ -9,7 +9,7 @@ namespace Resources {
     public class Die : Resource {
         private System.Random RNG;
 
-        public Die(int amount = 0, int maxAmount = 6) : base(amount, maxAmount, "Die", (int)ResourceType.Die, Color.cyan) {
+        public Die(int amount = 0, int maxAmount = 6) : base(amount, maxAmount, "Die", ResourceType.Die, Color.cyan) {
             IsDisabled = false;
         }
 

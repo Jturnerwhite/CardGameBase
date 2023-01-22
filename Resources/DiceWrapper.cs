@@ -8,7 +8,7 @@ namespace Resources {
 
         private Die[] Dice;
 
-        public DiceWrapper(int amount = 2, int maxAmount = 5) : base(amount, maxAmount, "DiceWrapper", (int)ResourceType.Die, Color.gray) {
+        public DiceWrapper(int amount = 2, int maxAmount = 5) : base(amount, maxAmount, "DiceWrapper", ResourceType.Die, Color.gray) {
             Dice = new Die[maxAmount];
 
             for(var i = 0; i < amount; i++) {

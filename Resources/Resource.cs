@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Saves;
 using UnityEngine;
 using Utils;
 
 namespace Resources {
 	public abstract class Resource {
 		public string Name;
-		public int Type;
+		public ResourceType Type;
 		
 		public int Amount;
 		public int MaxAmount;
@@ -17,7 +18,7 @@ namespace Resources {
 
 		public Color Color;
 		
-		public Resource(int amount, int maxAmount, string name, int type, Color color) {
+		public Resource(int amount, int maxAmount, string name, ResourceType type, Color color) {
 			Name = name;
 			Type = type;
 			Color = color;
@@ -114,6 +115,15 @@ namespace Resources {
 			}
 
 			return output;
+		}
+
+		public virtual ResourceSaveData GetResourceSaveData() {
+			ResourceSaveData newResourceSaveData = new ResourceSaveData();
+			newResourceSaveData.Type = this.Type;
+			newResourceSaveData.MinOrCurrent = this.Amount;
+			newResourceSaveData.Max = this.MaxAmount;
+
+			return newResourceSaveData;
 		}
 	}
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using Characters;
 using Characters.Classes;
 using Cards;
+using Saves;
 
 public static class RunManager
 {
@@ -14,9 +15,12 @@ public static class RunManager
     public static Zone EventZone;
 
     public static void SetCharacter(CharacterClass cClass) {
+        Debug.Log($"Selected Character Class: {cClass}");
         Character = CharacterFactory.Get(cClass);
         Deck = CardFactory.GetDeck(cClass);
         Character.CardManager.Init(Deck);
+
+        SaveManager.CreateNewSave(Character, Deck, $"newsave_{Character.Name}");
     }
 
     public static void CompleteBattle(Character character) {

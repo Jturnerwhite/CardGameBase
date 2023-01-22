@@ -4,6 +4,7 @@ using UnityEngine;
 using Resources;
 using Cards;
 using Characters.Classes;
+using Saves;
 
 namespace Characters {
 
@@ -49,6 +50,17 @@ namespace Characters {
 
 		public virtual void EndTurnTrigger() {
 			CardManager.DiscardHand();
+		}
+
+		public virtual CharacterSaveData GetCharacterSaveData() {
+			CharacterSaveData charData = new CharacterSaveData();
+			charData.Name = this.Name;
+			charData.CharacterClass = this.CharacterClass;
+			charData.CurrentHP = this.HP.Amount;
+			charData.MaxHP = this.HP.MaxAmount;
+			charData.ResourceData = this.GetResource().GetResourceSaveData();
+
+			return charData;
 		}
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Resources {
     // These are so empty because the class it inherits, Resource, has all the basic functions
     public class Armor : Resource {
-        public Armor(int amount, int maxAmount) : base(amount, maxAmount, "Armor", (int)ResourceType.Armor, Color.gray) {
+        public Armor(int amount, int maxAmount) : base(amount, maxAmount, "Armor", ResourceType.Armor, Color.gray) {
 
         }
 
