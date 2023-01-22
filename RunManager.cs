@@ -10,6 +10,9 @@ public static class RunManager
     public static Character Character;
     public static List<Card> Deck;
 
+    public static Vector3 MapPosition;
+    public static Zone EventZone;
+
     public static void SetCharacter(CharacterClass cClass) {
         Character = CharacterFactory.Get(cClass);
         Deck = CardFactory.GetDeck(cClass);
@@ -22,7 +25,8 @@ public static class RunManager
         Deck = Character.CardManager.Deck;
     }
 
-    public static void PrepareForBattle() {
-        Character.CardManager.SetCards(Deck);
+    public static void PrepareForBattle(Zone eventZone, Vector3 position) {
+        MapPosition = position;
+        EventZone = eventZone;
     }
 }

@@ -10,6 +10,7 @@ namespace Characters.Classes {
 
 		public Warrior(string name = "Warrior", int initialHP = 20) : base(name, initialHP, CharacterClass.Warrior) {
 			Stamina = new Stamina(10, 10);
+			Stamina.PendingChange = 5;
 		}
 
 		public override Resource GetResource() {
@@ -35,7 +36,7 @@ namespace Characters.Classes {
 		}
 
 		public override void StartTurnTrigger() {
-			Stamina.SupplyResource(10);
+			Stamina.SupplyResource(5);
 			CardManager.DrawHand(3);
 		}
 	}

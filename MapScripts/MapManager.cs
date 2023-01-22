@@ -17,9 +17,9 @@ public class MapManager : MonoBehaviour
         Player = Instantiate(PlayerPrefab, StartPosition.position, Quaternion.identity);
         if(RunManager.Character != null) {
             Debug.Log(RunManager.Character.CharacterClass.ToString());
-            Player.Init(RunManager.Character.CharacterClass);
+            Player.Init(RunManager.Character.CharacterClass, StartPosition.position, DropThreshold.position);
         } else {
-            Player.Init(CharacterClass.Warrior);
+            Player.Init(CharacterClass.Warrior, StartPosition.position, DropThreshold.position);
         }
     }
 
@@ -31,26 +31,8 @@ public class MapManager : MonoBehaviour
 
     public void Event(Zone zone) 
     {
-        RunManager.PrepareForBattle();
+        RunManager.PrepareForBattle(zone, Player.transform.position);
         SceneChanger.ChangeToBattleScene();
         Debug.Log("Zone triggered: " + zone.gameObject.name);
-    }
-
-    public bool IsValidDropoff(Vector2 playerPos) {
-        return playerPos.y > DropThreshold.position.y;
-    }
-
-    public void OnPlayerDrag() {
-        Player.OnDrag();
-    }
-
-    public void OnPlayerDrop() {
-        var isValid = IsValidDropoff(Player.transform.position);
-
-        if(isValid) {
-            Player.OnDrop();
-        } else {
-            Player.transform.position = StartPosition.transform.position;
-        }
     }
 }

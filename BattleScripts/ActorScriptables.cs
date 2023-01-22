@@ -9,7 +9,7 @@ using Characters.Enemies;
 using Cards;
 using UI;
 
-public class Actor : MonoBehaviour
+public class ActorScriptables : MonoBehaviour
 {
 	public CharacterClass CharacterClass;
 	public EnemyType EnemyType;
@@ -21,6 +21,9 @@ public class Actor : MonoBehaviour
 
 	public Character characterStats { get; set; }
 	public List<ResourceUI> ourResources { get; set; }
+
+	[SerializeField]
+	public List<CardData> cards { get; set; }
 
 	public Transform resourceAnchor;
 
@@ -83,7 +86,7 @@ public class Actor : MonoBehaviour
 	public void Click() {
 		var EventManager = Camera.main.GetComponent<EventManager>();
 		if(EventManager != null) {
-			EventManager.ActorClicked(this);
+			//EventManager.ActorClicked(this);
 		}
 	}
 

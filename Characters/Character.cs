@@ -6,6 +6,9 @@ using Cards;
 using Characters.Classes;
 
 namespace Characters {
+
+	// Represents the Character's Stats, not cards
+	// It is however used to determine if cards can be cast, based off its resources.
 	public abstract class Character {
 
 		public string Name { get; set; }

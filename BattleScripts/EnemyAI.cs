@@ -1,32 +1,27 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using Resources;
-using Characters;
-using Characters.Classes;
-using Characters.Enemies;
 using Cards;
-using UI;
 
 public class EnemyAI : MonoBehaviour
 {
     private ActionManager ActionManager;
     private BattleManager BattleManager;
-
+    private Actor ActorComp;
+    private CardManager cardManager;
     private System.Random rng;
 
-    private CardManager cardManager;
-
     void Start() {
-        this.ActionManager = Camera.main.GetComponent<ActionManager>();
-        this.BattleManager = Camera.main.GetComponent<BattleManager>();
+        ActionManager = Camera.main.GetComponent<ActionManager>();
+        BattleManager = Camera.main.GetComponent<BattleManager>();
         rng = new System.Random();
 
-        var ActorComp = GetComponent<Actor>();
+        ActorComp = GetComponent<Actor>();
         cardManager = ActorComp.characterStats.CardManager;
 
+        InitDeck();
+    }
+
+    public void InitDeck() {
         List<Card> StartingDeck = new List<Card>();
         StartingDeck.Add(new Strike());
         StartingDeck.Add(new Strike());
@@ -37,8 +32,12 @@ public class EnemyAI : MonoBehaviour
         cardManager.Init(StartingDeck);
     }
 
-    void FixedUpdate() {
+    public void TakeTurn() {
+        Card cardSelected = ChooseCast();
+        List<Actor> targets = new List<Actor>();
+        targets.Add(BattleManager.GetPlayer());
 
+        ActionManager.CastCard(cardSelected, ActorComp, targets);
     }
 
     public Card ChooseCast() {

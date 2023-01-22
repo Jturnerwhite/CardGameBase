@@ -84,11 +84,12 @@ public class EventManager : MonoBehaviour {
     }
 
     public void EnemyTurnCommence(Actor enemy) {
-        Card cardSelected = enemy.GetComponent<EnemyAI>().ChooseCast();
-        List<Actor> targets = new List<Actor>();
-        targets.Add(BattleManager.GetPlayer());
+        enemy.GetComponent<EnemyAI>().TakeTurn();
+        // Card cardSelected = enemy.GetComponent<EnemyAI>().ChooseCast();
+        // List<Actor> targets = new List<Actor>();
+        // targets.Add(BattleManager.GetPlayer());
 
-        ActionManager.CastCard(cardSelected, enemy, targets);
+        // ActionManager.CastCard(cardSelected, enemy, targets);
     }
 
     public void PlayerTurnCommence() {

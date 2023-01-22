@@ -11,6 +11,8 @@ namespace Resources {
 		public int Amount;
 		public int MaxAmount;
 
+		public int PendingChange;
+
 		public bool IsDisabled;
 
 		public Color Color;
@@ -31,11 +33,28 @@ namespace Resources {
 		public virtual int GetAmount() {
 			return Amount;
 		}
+
+		public virtual int GetPendingChange() {
+			// +10 on 10/10 should show as +0
+			// +10 on 3/10 should show as +7
+			// +10 on 0/10 should show as +10
+			return (Amount + PendingChange > MaxAmount) ? MaxAmount - Amount : PendingChange;
+		}
+
 		public virtual int GetMaxAmount() {
 			return MaxAmount;
 		}
+
 		public virtual float GetCurrentPercent(int adjustment = 0) {
 			return (float)(Amount + adjustment) / (float)MaxAmount;
+		}
+
+		public virtual float GetPendingPercent() {
+			float newPercent = (float)(Amount + PendingChange) / (float)MaxAmount;
+			if(newPercent > 1) {
+				newPercent = 1;
+			}
+			return newPercent;
 		}
 
 		public virtual void SetMaxAmount(int maxAmount) {

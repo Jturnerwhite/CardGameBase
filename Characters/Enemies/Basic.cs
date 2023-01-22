@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cards;
@@ -5,6 +6,7 @@ using Characters;
 using Resources;
 
 namespace Characters.Enemies {
+	// Basic no-resource enemy
 	public class BasicEnemy : Character {
 		public BasicEnemy(string name = "Basic") : base(name, 25) {
 		}

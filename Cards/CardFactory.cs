@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Characters.Classes;
 
 namespace Cards 
@@ -6,6 +7,9 @@ namespace Cards
     public static class CardFactory 
     {
         public static List<Card> GetDeck(CharacterClass type) {
+            DeckData[] decksLoaded = UnityEngine.Resources.LoadAll<DeckData>("Scriptables/DefaultDecks");
+            Debug.Log($"Decks Loaded: {decksLoaded.Length}");
+
             switch(type) {
                 case CharacterClass.Zealot:
                     return GetZealotDeck();
