@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Resources;
 using Characters;
@@ -14,8 +15,26 @@ namespace Cards.Actions {
         private DiscardType Type { get; set; }
 
         public ToDiscard(int amount = 1, DiscardType type = DiscardType.Random) {
-            this.DiscardAmount = amount;
-            this.Type = type;
+            DiscardAmount = amount;
+            Type = type;
+        }
+
+        public ToDiscard(ActionData serializedAction) {
+            string valuesCSV = serializedAction.Value;
+            string[] values = valuesCSV.Split(',');
+
+            int parsedValue;
+            if(!Int32.TryParse(values[0], out parsedValue)) {
+                parsedValue = 1;
+            }
+            DiscardAmount = parsedValue;
+
+            DiscardType parsedType = DiscardType.Random;
+            if(values.Length > 1) {
+                parsedType = Enum.Parse<DiscardType>(values[1], true);
+            }
+
+            Type = parsedType;
         }
 
         public void execute(List<Character> targets, Character source) {

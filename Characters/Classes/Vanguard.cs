@@ -35,7 +35,7 @@ namespace Characters.Classes {
 		}
 		
 		public override bool CanCastCard(Card card) {
-			return Armor.CanCostBePaid(card.Cost.Amount, card.Cost.CheckType);
+			return Armor.CanCostBePaid(card.Cost.Amount, card.Cost.AmountCheckType);
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {

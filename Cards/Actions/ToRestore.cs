@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Resources;
 using Characters;
@@ -5,21 +6,25 @@ using Characters;
 namespace Cards.Actions {
     public class ToRestore : iAction {
         private int RestoreAmount { get; set; }
-        private int CurrentAmount { get; set; }
-        private int MaxAmount {get; set; }
+
         public ToRestore(int amount) {
             this.RestoreAmount = amount;
         }
 
+        public ToRestore(ActionData serializedAction) {
+            RestoreAmount = Int32.Parse(serializedAction.Value);
+        }
+
         public void execute(List<Character> targets, Character source) {
             Resource resource = source.GetResource();
-            this.MaxAmount = resource.GetMaxAmount();
-            this.CurrentAmount = resource.GetAmount();
+            int maxAmount = resource.GetMaxAmount();
+            int currentAmount = resource.GetAmount();
 
-            if (CurrentAmount + RestoreAmount <= MaxAmount) {
+            // move overflow logic to the Resource
+            if (currentAmount + RestoreAmount <= maxAmount) {
                 resource.SupplyResource(RestoreAmount);
             } else {
-                resource.SetAmount(MaxAmount);
+                resource.SetAmount(maxAmount);
             }
         }
     }

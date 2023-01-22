@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cards;
+using System;
 
 namespace UI {
     public class CardUI : MonoBehaviour {
@@ -41,10 +42,14 @@ namespace UI {
         // Update is called once per frame
         void Update()
         {
-            Description.text = Card.Description;
-            Cost.text = Card.Cost.ToString();
-            Name.text = Card.Name;
-            Description.text = Card.Description;
+            try {
+                Description.text = Card.Description;
+                Cost.text = Card.Cost.ToString();
+                Name.text = Card.Name;
+                Description.text = Card.Description;
+            } catch(Exception e) {
+                Debug.Log($"Card Update Fail for: {Card.Name}");
+            }
         }
         public void ToggleHighlight(bool? isSelected = null) {
             this.isSelected = (isSelected != null) ? isSelected.Value : !this.isSelected;

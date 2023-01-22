@@ -25,11 +25,11 @@ namespace Characters.Classes {
 		}
 
 		public override bool CanCastCard(Card card) {
-			return Dice.CanCostBePaid(card.Cost.Amount, card.Cost.CheckType);
+			return Dice.CanCostBePaid(card.Cost.Amount, card.Cost.AmountCheckType);
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {
-			Dice.PayCost(card.Cost.Amount, card.Cost.CheckType);
+			Dice.PayCost(card.Cost.Amount, card.Cost.AmountCheckType);
 			CardManager.CastCard(card);
 		}
 

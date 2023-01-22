@@ -21,7 +21,7 @@ namespace Characters.Classes {
 		}
 		
 		public override bool CanCastCard(Card card) {
-			return HP.CanCostBePaid(card.Cost.Amount, card.Cost.CheckType);
+			return HP.CanCostBePaid(card.Cost.Amount, card.Cost.AmountCheckType);
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Resources;
 using Characters;
@@ -22,6 +23,29 @@ namespace Cards.Actions {
             this.DrawAmount = amount;
             this.Type = type;
             this.Source = source;
+        }
+
+        public ToDraw(ActionData serializedAction) {
+            string valuesCSV = serializedAction.Value;
+            string[] values = valuesCSV.Split(',');
+
+            int parsedValue;
+            if(!Int32.TryParse(values[0], out parsedValue)) {
+                parsedValue = 1;
+            }
+            DrawAmount = parsedValue;
+
+            DrawType parsedType;
+            if(!Enum.TryParse<DrawType>(values[0], out parsedType)) {
+                parsedType = DrawType.Top;
+            }
+            Type = parsedType;
+
+            DrawSource parsedSource;
+            if(!Enum.TryParse<DrawSource>(values[0], out parsedSource)) {
+                parsedSource = DrawSource.Deck;
+            }
+            Source = parsedSource;
         }
 
         public void execute(List<Character> targets, Character source) {

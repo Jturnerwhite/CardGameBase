@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Resources;
 using Characters;
@@ -7,7 +8,11 @@ namespace Cards.Actions {
         private int DamageAmount { get; set; }
 
         public ToDamage(int amount) {
-            this.DamageAmount = amount;
+            DamageAmount = amount;
+        }
+
+        public ToDamage(ActionData serializedAction) {
+            DamageAmount = Int32.Parse(serializedAction.Value);
         }
 
         public void execute(List<Character> targets, Character source) {
