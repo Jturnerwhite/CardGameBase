@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Cards;
+using Saves;
 
 namespace Cards {
     public class CardManager {
@@ -22,6 +23,14 @@ namespace Cards {
 
         public void Init(List<Card> startingDeck) {
             Deck = startingDeck ?? new List<Card>();
+            Hand = new List<Card>();
+            Discard = new List<Card>();
+            rng = new System.Random();
+        }
+
+        public void InitFromSave(List<CardData> savedDeck) {
+            Deck = new List<Card>();
+            CardFactory.ConstructDeck(savedDeck);
             Hand = new List<Card>();
             Discard = new List<Card>();
             rng = new System.Random();

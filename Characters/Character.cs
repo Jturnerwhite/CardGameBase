@@ -26,12 +26,29 @@ namespace Characters {
 			CardManager.Init(null);
 		}
 
+		public virtual void SetFromSave(CharacterSaveData data) {
+			Name = data.Name;
+			HP = new Health(data.CurrentHP, data.MaxHP);
+			CharacterClass = data.CharacterClass;
+			SetResource(data.ResourceData);
+		}
+
+		public virtual void SetCardManager(List<CardData> cardData) {
+			CardManager.Init(CardFactory.ConstructDeck(cardData));
+		}
+
 		public virtual void ApplyDamage(int amount) {
 			HP.DepleteResource(amount);
 		}
 
 		public virtual void SetDeck(List<Card> startingDeck) {
 			
+		}
+
+		public virtual void SetResource(ResourceSaveData saveData) {
+			Resource resource = GetResource();
+			resource.SetAmount(saveData.MinOrCurrent);
+			resource.SetMaxAmount(saveData.Max);
 		}
 
 		public abstract Resource GetResource();

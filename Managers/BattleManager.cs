@@ -50,7 +50,7 @@ public class BattleManager : MonoBehaviour {
         InitCardManager();
 
         Enemy = Instantiate(EnemyBase, new Vector3(6, 0), Quaternion.identity) as Actor;
-        Enemy.Initialize(null);
+        Enemy.Initialize(null, null);
 
         Player.StartTurnTrigger();
     }
@@ -59,7 +59,7 @@ public class BattleManager : MonoBehaviour {
         var indexToUse = (RunManager.Character != null) ? RunManager.Character.CharacterClass : CharacterClass.Warrior;
 
         Player = Instantiate(ClassPrefabs[(int)indexToUse], new Vector3(-6, 0), Quaternion.identity) as Actor;
-        Player.Initialize(RunManager.Character);
+        Player.Initialize(RunManager.Character, RunManager.Deck);
     }
 
     public void InitCardManager() {

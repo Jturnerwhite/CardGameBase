@@ -19,7 +19,7 @@ public class CharacterSelect : MonoBehaviour
     }
 
     public void OnCharacterSelect(CharacterClass type) {
-        RunManager.SetCharacter(type);
-        //SceneChanger.ChangeToMapScene();
+        RunManager.StartRun(type);
+        SceneChanger.ChangeToMapScene();
     }
 }

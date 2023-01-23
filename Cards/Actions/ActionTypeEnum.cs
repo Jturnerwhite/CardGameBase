@@ -7,6 +7,8 @@ namespace Cards.Actions {
         ToDamageWithThreshold,
         ToDiscard,
         ToDraw,
-        ToRestore
+        ToRestore,
+        AddReagent,
+        Brew
     }
 }

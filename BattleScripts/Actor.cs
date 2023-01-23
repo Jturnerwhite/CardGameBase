@@ -24,7 +24,7 @@ public class Actor : MonoBehaviour
 
 	public Transform resourceAnchor;
 
-	public void Initialize(Character stats) {
+	public void Initialize(Character stats, List<CardData> cards) {
 		if(stats == null) {
 			if(CharacterClass == CharacterClass.None) {
 				characterStats = CharacterFactory.Get(EnemyType);
@@ -35,6 +35,8 @@ public class Actor : MonoBehaviour
 			characterStats = stats;
 			CharacterClass = stats.CharacterClass;
 		}
+
+		characterStats.SetCardManager(CardFactory.GetDeckData(CharacterClass.None).Cards);
 
 		ourResources = new List<ResourceUI>();
 		MakeResourceBars();

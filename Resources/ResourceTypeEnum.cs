@@ -5,6 +5,7 @@ namespace Resources {
         Stamina,
         Die,
         Armor,
+        ThePot,
         Other
     }
 }

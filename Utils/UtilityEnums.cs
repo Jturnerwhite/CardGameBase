@@ -1,4 +1,8 @@
+using System;
+
 namespace Utils {
+
+	[Serializable]
 	public enum AmountCheckType {
 		Not,
 		Exact,
@@ -6,5 +10,13 @@ namespace Utils {
 		BelowOrEqual,
 		AboveNotEqual,
 		AboveOrEqual
+	}
+
+	[Serializable]
+	public enum TargetType {
+		Random,
+		All,
+		Single,
+		Self
 	}
 }

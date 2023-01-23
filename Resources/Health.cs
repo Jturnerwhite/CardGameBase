@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Resources {
     // These are so empty because the class it inherits, Resource, has all the basic functions
     public class Health : Resource {
-        public Health(int amount, int maxAmount) : base(amount, maxAmount, "Health", (int)ResourceType.Health, Color.red) {
+        public Health(int amount, int maxAmount) : base(amount, maxAmount, "Health", ResourceType.Health, Color.red) {
 
         }
 

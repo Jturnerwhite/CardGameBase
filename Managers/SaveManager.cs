@@ -13,16 +13,15 @@ namespace Saves {
     public static class SaveManager {
         private const string SAVE_KEY = "RUN_SAVE";
 
-        public static void CreateNewSave(Character selectedCharacter, List<Card> deck, string saveName) {
-            CheckSave();
-
+        public static void CreateNewSave(Character selectedCharacter, List<CardData> deck, string saveName) {
             SaveData newSave = new SaveData() {
-                CharacterData = selectedCharacter.GetCharacterSaveData()
+                CharacterData = selectedCharacter.GetCharacterSaveData(),
+                SaveName = saveName
             };
 
-            List<CardSaveData> newDeckSave = new List<CardSaveData>();
+            List<CardData> newDeckSave = new List<CardData>();
             foreach(var card in deck) {
-                newDeckSave.Add(new CardSaveData(){ Name = card.Name });
+                newDeckSave.Add(card);
             }
 
             newSave.CharacterData.Deck = newDeckSave;
@@ -33,9 +32,28 @@ namespace Saves {
         public static void CheckSave() {
             if (DataSerializer.HasKey(SAVE_KEY)) {
                 SaveData savedData = DataSerializer.Load<SaveData>(SAVE_KEY);
+                Debug.Log($"Path: {Application.persistentDataPath}");
                 Debug.Log($"Save Detected: {savedData.SaveName} Class: {savedData.CharacterData.Name} CurrHP: {savedData.CharacterData.CurrentHP}");
+                Debug.Log($"Deck Details: [0]:{savedData.CharacterData.Deck.Count}");
             } else {
                 Debug.Log($"No Save Detected");
+            }
+        }
+
+        public static void Save(Character selectedCharacter = null, List<CardData> deck = null) {
+            if (DataSerializer.TryLoad<SaveData>(SAVE_KEY, out SaveData loadedData))
+            {
+                if (selectedCharacter != null) {
+                    loadedData.CharacterData = selectedCharacter.GetCharacterSaveData();
+                }
+                if (deck != null) {    
+                    List<CardData> newDeckSave = new List<CardData>();
+                    foreach(var card in deck) {
+                        newDeckSave.Add(card);
+                    }
+
+                    loadedData.CharacterData.Deck = newDeckSave;
+                }
             }
         }
 
