@@ -15,7 +15,11 @@ namespace Utils {
 	[Serializable]
 	public enum TargetType {
 		Random,
+		RandomEnemy,
+		RandomAlly,
 		All,
+		AllEnemy,
+		AllAlly,
 		Single,
 		Self
 	}

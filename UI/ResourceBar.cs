@@ -22,8 +22,6 @@ namespace UI {
             CurrentResource = resource;
             bar.SetColor(CurrentResource.Color);
             Color modColor = new Color(CurrentResource.Color.r + 0.75f, CurrentResource.Color.g + 0.75f, CurrentResource.Color.b + 0.75f);
-            Debug.Log($"{CurrentResource.Color.r}, {CurrentResource.Color.g}, {CurrentResource.Color.b}");
-            Debug.Log($"{modColor.r}, {modColor.g}, {modColor.b}");
             previewBar.SetColor(modColor);
 
             transform.SetParent(parent, false);

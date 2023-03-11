@@ -20,6 +20,7 @@ public static class RunManager
         Character = CharacterFactory.Get(cClass);
         Deck = CardFactory.GetDeckData(cClass).Cards;
 
+        Debug.Log($"Character Loaded: {Character.Name} {Character.CharacterClass} : Deck: {Deck.Count}");
         SaveManager.CreateNewSave(Character, Deck, $"newsave_{Character.Name}");
     }
 

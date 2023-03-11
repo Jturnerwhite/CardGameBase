@@ -8,7 +8,8 @@ namespace Cards.Actions {
         ToDiscard,
         ToDraw,
         ToRestore,
-        AddReagent,
+        ReagentAction,
+        ChangeTarget,
         Brew
     }
 }

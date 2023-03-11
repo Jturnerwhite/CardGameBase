@@ -56,7 +56,9 @@ public class BattleManager : MonoBehaviour {
     }
 
     public void InitPlayer() {
+        Debug.Log($" Runman Class: {RunManager.Character.CharacterClass}");
         var indexToUse = (RunManager.Character != null) ? RunManager.Character.CharacterClass : CharacterClass.Warrior;
+        Debug.Log($"Index: {indexToUse}");
 
         Player = Instantiate(ClassPrefabs[(int)indexToUse], new Vector3(-6, 0), Quaternion.identity) as Actor;
         Player.Initialize(RunManager.Character, RunManager.Deck);

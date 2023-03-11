@@ -36,6 +36,7 @@ public class Actor : MonoBehaviour
 			CharacterClass = stats.CharacterClass;
 		}
 
+		Debug.Log($"INIT ACTOR CHAR : {characterStats.Name}");
 		characterStats.SetCardManager(CardFactory.GetDeckData(CharacterClass.None).Cards);
 
 		ourResources = new List<ResourceUI>();

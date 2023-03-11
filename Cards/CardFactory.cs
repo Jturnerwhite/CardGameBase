@@ -52,12 +52,12 @@ namespace Cards
             Card output = new Card(serializedCard);
             output.Actions = new List<iAction>();
             foreach(var serializedAction in serializedCard.Actions) {
-                output.Actions.Add(ConstructAction(serializedAction));
+                output.Actions.Add(ConstructAction(serializedAction, output));
             }
             return output;
         }
 
-        public static iAction ConstructAction(ActionData serializedAction) {
+        public static iAction ConstructAction(ActionData serializedAction, Card card = null) {
             switch(serializedAction.Type) {
                 case ActionType.ToDamage:
                     return new ToDamage(serializedAction);
@@ -69,6 +69,10 @@ namespace Cards
                     return new ToDraw(serializedAction);
                 case ActionType.ToRestore:
                     return new ToRestore(serializedAction);
+                case ActionType.ReagentAction:
+                    return new ReagentAction(serializedAction);
+                case ActionType.ChangeTarget:
+                    return new ChangeTarget(serializedAction);
                 default:
                     return new ToRestore(0);
             }

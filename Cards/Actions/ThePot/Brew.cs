@@ -7,7 +7,7 @@ namespace Cards.Actions {
     public class Brew : iAction {
         public void execute(List<Character> targets, Character source) {
             ThePot res = (ThePot)source.GetResource();
-            res.Brew();
+            res.Brew(targets, source);
         }
     }
 }

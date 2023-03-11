@@ -17,6 +17,9 @@ public class CharacterSelect : MonoBehaviour
     public void OnGamblerSelect() {
         OnCharacterSelect(CharacterClass.Gambler);
     }
+    public void OnPotentateSelect() {
+        OnCharacterSelect(CharacterClass.Potentate);
+    }
 
     public void OnCharacterSelect(CharacterClass type) {
         RunManager.StartRun(type);

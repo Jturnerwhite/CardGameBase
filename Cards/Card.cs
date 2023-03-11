@@ -7,6 +7,7 @@ namespace Cards {
     public class Card {
 
         public string Name;
+        public CardType CardType = CardType.Default;
         public int TargetsNeeded;
         public string Description;
 
@@ -14,7 +15,7 @@ namespace Cards {
         public List<iAction> Actions { get; set; }
         public List<Cost> AdditionalCosts;
 
-        public Card(string name, string description, Cost cost, int targetsNeeded) {
+        public Card(string name, string description, Cost cost, int targetsNeeded, CardType type = CardType.Default) {
             Name = name;
             Description = description;
             Cost = cost;
@@ -25,6 +26,7 @@ namespace Cards {
             Name = baseData.Name;
             Description = baseData.Description;
             TargetsNeeded = baseData.TargetsNeeded;
+            this.CardType = baseData.CardType;
             SetCost(baseData.Cost);
             SetAdditionalCosts(baseData.AdditionalCosts);
 

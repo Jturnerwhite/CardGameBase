@@ -4,6 +4,7 @@ namespace Characters.Classes {
         Warrior,
         Zealot,
         Gambler,
-        Vanguard
+        Vanguard,
+        Potentate
     }
 }

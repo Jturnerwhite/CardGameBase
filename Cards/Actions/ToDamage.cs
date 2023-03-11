@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Resources;
 using Characters;
+using UnityEngine;
 
 namespace Cards.Actions {
     public class ToDamage : iAction {
@@ -12,7 +13,11 @@ namespace Cards.Actions {
         }
 
         public ToDamage(ActionData serializedAction) {
-            DamageAmount = Int32.Parse(serializedAction.Value);
+            try {
+                DamageAmount = Int32.Parse(serializedAction.Value);
+            } catch(Exception e) {
+                Debug.Log($"{serializedAction.Type} : {serializedAction.Value}");
+            }
         }
 
         public void execute(List<Character> targets, Character source) {
