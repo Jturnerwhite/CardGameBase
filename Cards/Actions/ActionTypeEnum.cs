@@ -10,6 +10,8 @@ namespace Cards.Actions {
         ToRestore,
         ReagentAction,
         ChangeTarget,
-        Brew
+        Brew,
+        ToDeplete,
+        ToReroll
     }
 }

@@ -38,6 +38,9 @@ namespace Cards.Actions {
         }
 
         public void execute(List<Character> targets, Character source) {
+            if(DiscardAmount == -1) {
+                source.CardManager.DiscardHand();
+            }
             if(Type == DiscardType.First) {
                 for(int i = 0; i < DiscardAmount; i++) {
                     source.CardManager.DiscardFromHand(0);

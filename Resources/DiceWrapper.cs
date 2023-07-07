@@ -24,6 +24,14 @@ namespace Resources {
             }
         }
 
+        public void Roll(int dieIndex) {
+            if(dieIndex > MaxAmount || dieIndex < 0) {
+                return;
+            }
+
+            Dice[dieIndex].Roll();
+        }
+
         public override Resource[] GetSubResources() {
             return Dice;
         }

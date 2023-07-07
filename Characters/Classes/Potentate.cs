@@ -35,5 +35,9 @@ namespace Characters.Classes {
 
             CardManager.CastCard(card);
 		}
+		public override void EndTurnTrigger() {
+			//ThePot.Brew();
+			CardManager.DiscardHand();
+		}
 	}
 }

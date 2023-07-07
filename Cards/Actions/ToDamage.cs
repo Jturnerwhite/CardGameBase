@@ -16,7 +16,7 @@ namespace Cards.Actions {
             try {
                 DamageAmount = Int32.Parse(serializedAction.Value);
             } catch(Exception e) {
-                Debug.Log($"{serializedAction.Type} : {serializedAction.Value}");
+                Debug.Log($"{serializedAction.Type} : {serializedAction.Value} : {e.Message}");
             }
         }
 

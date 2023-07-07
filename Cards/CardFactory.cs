@@ -73,6 +73,12 @@ namespace Cards
                     return new ReagentAction(serializedAction);
                 case ActionType.ChangeTarget:
                     return new ChangeTarget(serializedAction);
+                case ActionType.Brew:
+                    return new Brew();
+                case ActionType.ToDeplete:
+                    return new ToDeplete(serializedAction);
+                case ActionType.ToReroll:
+                    return new ToReroll(serializedAction);
                 default:
                     return new ToRestore(0);
             }
