@@ -11,6 +11,9 @@ using UI;
 
 public class Actor : MonoBehaviour
 {
+	public BattleManager BattleManager { get; set; }
+	public ActionManager ActionManager { get; set; }
+
 	public CharacterClass CharacterClass;
 	public EnemyType EnemyType;
 
@@ -41,10 +44,26 @@ public class Actor : MonoBehaviour
 
 		ourResources = new List<ResourceUI>();
 		MakeResourceBars();
+
+		try {
+			BattleManager = Camera.main.GetComponent<BattleManager>();
+			ActionManager = Camera.main.GetComponent<ActionManager>();
+		}
+		catch(Exception e) {
+			
+		}
 	}
 
 	void Start () {
 		this.Canvas.worldCamera = Camera.main;
+	
+		try {
+			BattleManager = Camera.main.GetComponent<BattleManager>();
+			ActionManager = Camera.main.GetComponent<ActionManager>();
+		}
+		catch(Exception e) {
+			
+		}
 	}
 
 	void FixedUpdate () {
@@ -95,10 +114,14 @@ public class Actor : MonoBehaviour
 	}
 
 	public void StartTurnTrigger() {
-		characterStats.StartTurnTrigger();
+		if(BattleManager) {
+			characterStats.StartTurnTrigger(this, BattleManager.GetAllEnemies());
+		}
 	}
 
 	public void EndTurnTrigger() {
-		characterStats.EndTurnTrigger();
+		if(BattleManager) {
+			characterStats.EndTurnTrigger(this, BattleManager.GetAllEnemies());
+		}
 	}
 }

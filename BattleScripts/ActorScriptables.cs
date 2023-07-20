@@ -1,104 +1,115 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Resources;
-using Characters;
-using Characters.Classes;
-using Characters.Enemies;
-using Cards;
-using UI;
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using UnityEngine;
+// using Resources;
+// using Characters;
+// using Characters.Classes;
+// using Characters.Enemies;
+// using Cards;
+// using UI;
 
-public class ActorScriptables : MonoBehaviour
-{
-	public CharacterClass CharacterClass;
-	public EnemyType EnemyType;
+// public class ActorScriptables : MonoBehaviour
+// {
+// 	public BattleManager BattleManager { get; set; }
+// 	public ActionManager ActionManager { get; set; }
 
-	public ResourceUI HealthUIPrefab;
-	public ResourceUI ResourceUIPrefab;
+// 	public CharacterClass CharacterClass;
+// 	public EnemyType EnemyType;
 
-	public Canvas Canvas;
+// 	public ResourceUI HealthUIPrefab;
+// 	public ResourceUI ResourceUIPrefab;
 
-	public Character characterStats { get; set; }
-	public List<ResourceUI> ourResources { get; set; }
+// 	public Canvas Canvas;
 
-	[SerializeField]
-	public List<CardData> cards { get; set; }
+// 	public Character characterStats { get; set; }
+// 	public List<ResourceUI> ourResources { get; set; }
 
-	public Transform resourceAnchor;
+// 	[SerializeField]
+// 	public List<CardData> cards { get; set; }
 
-	public void Initialize(Character stats) {
-		if(stats == null) {
-			if(CharacterClass == CharacterClass.None) {
-				characterStats = CharacterFactory.Get(EnemyType);
-			} else {
-				characterStats = CharacterFactory.Get(CharacterClass);
-			}
-		} else {
-			characterStats = stats;
-			CharacterClass = stats.CharacterClass;
-		}
+// 	public Transform resourceAnchor;
 
-		ourResources = new List<ResourceUI>();
-		MakeResourceBars();
-	}
+// 	public void Initialize(Character stats) {
+// 		if(stats == null) {
+// 			if(CharacterClass == CharacterClass.None) {
+// 				characterStats = CharacterFactory.Get(EnemyType);
+// 			} else {
+// 				characterStats = CharacterFactory.Get(CharacterClass);
+// 			}
+// 		} else {
+// 			characterStats = stats;
+// 			CharacterClass = stats.CharacterClass;
+// 		}
 
-	void Start () {
-		this.Canvas.worldCamera = Camera.main;
-	}
+// 		ourResources = new List<ResourceUI>();
+// 		MakeResourceBars();
+// 	}
 
-	void FixedUpdate () {
-		if(characterStats != null && characterStats.HP.Amount <= 0) {
-			characterStats.HP.Amount = 0;
-			Destroy(gameObject);
-		}
-	}
+// 	void Start () {
+// 		this.Canvas.worldCamera = Camera.main;
+	
+// 		try {
+// 			BattleManager = Camera.main.GetComponent<BattleManager>();
+// 			ActionManager = Camera.main.GetComponent<ActionManager>();
+// 		}
+// 		catch(Exception e) {
+			
+// 		}
+// 	}
 
-	private void MakeResourceBars() {
-		int count = 1;
+// 	void FixedUpdate () {
+// 		if(characterStats != null && characterStats.HP.Amount <= 0) {
+// 			characterStats.HP.Amount = 0;
+// 			Destroy(gameObject);
+// 		}
+// 	}
 
-		MakeHealthUI(characterStats.HP);
+// 	private void MakeResourceBars() {
+// 		int count = 1;
 
-		List<Resource> resources = characterStats.GetAllResources();
-		foreach(var resource in resources) {
-			// skip HP, we already did it
-			if(resource.Type == (int)ResourceType.Health) {
-				continue;
-			}
-			//0.36f for bars originally
-			MakeResourceUI(resource, (-0.55f * count));
-			count++;
-		}
-	}
+// 		MakeHealthUI(characterStats.HP);
 
-	private void MakeHealthUI(Resource resource) {
-		var newResourceUI = Instantiate(HealthUIPrefab) as ResourceUI;
-		newResourceUI.Init(resource, transform, new Vector2((resourceAnchor.position.x), (resourceAnchor.position.y)));
-		ourResources.Add(newResourceUI);
-	}
+// 		List<Resource> resources = characterStats.GetAllResources();
+// 		foreach(var resource in resources) {
+// 			// skip HP, we already did it
+// 			if(resource.Type == (int)ResourceType.Health) {
+// 				continue;
+// 			}
+// 			//0.36f for bars originally
+// 			MakeResourceUI(resource, (-0.55f * count));
+// 			count++;
+// 		}
+// 	}
 
-	private void MakeResourceUI (Resource resource, float offset) {
-		var newResourceUI = Instantiate(ResourceUIPrefab) as ResourceUI;
-		newResourceUI.Init(resource, transform, new Vector2((resourceAnchor.position.x), (resourceAnchor.position.y + offset)));
-		ourResources.Add(newResourceUI);
-	}
+// 	private void MakeHealthUI(Resource resource) {
+// 		var newResourceUI = Instantiate(HealthUIPrefab) as ResourceUI;
+// 		newResourceUI.Init(resource, transform, new Vector2((resourceAnchor.position.x), (resourceAnchor.position.y)));
+// 		ourResources.Add(newResourceUI);
+// 	}
 
-	public void Click() {
-		var EventManager = Camera.main.GetComponent<EventManager>();
-		if(EventManager != null) {
-			//EventManager.ActorClicked(this);
-		}
-	}
+// 	private void MakeResourceUI (Resource resource, float offset) {
+// 		var newResourceUI = Instantiate(ResourceUIPrefab) as ResourceUI;
+// 		newResourceUI.Init(resource, transform, new Vector2((resourceAnchor.position.x), (resourceAnchor.position.y + offset)));
+// 		ourResources.Add(newResourceUI);
+// 	}
 
-	public bool CanCast(Card card) {
-		return characterStats.CanCastCard(card);
-	}
+// 	public void Click() {
+// 		var EventManager = Camera.main.GetComponent<EventManager>();
+// 		if(EventManager != null) {
+// 			//EventManager.ActorClicked(this);
+// 		}
+// 	}
 
-	public void StartTurnTrigger() {
-		characterStats.StartTurnTrigger();
-	}
+// 	public bool CanCast(Card card) {
+// 		return characterStats.CanCastCard(card);
+// 	}
 
-	public void EndTurnTrigger() {
-		characterStats.EndTurnTrigger();
-	}
-}
+// 	public void StartTurnTrigger() {
+// 		characterStats.StartTurnTrigger(this, BattleManager.GetAllEnemies());
+// 	}
+
+// 	public void EndTurnTrigger() {
+// 		characterStats.EndTurnTrigger(this, BattleManager.GetAllEnemies());
+// 	}
+// }

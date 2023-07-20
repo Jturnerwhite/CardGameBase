@@ -35,7 +35,7 @@ namespace Characters.Classes {
 			CardManager.CastCard(card);
 		}
 
-		public override void StartTurnTrigger() {
+		public override void StartTurnTrigger(Actor source, List<Actor> enemies) {
 			Stamina.SupplyResource(5);
 			CardManager.DrawHand(3);
 		}

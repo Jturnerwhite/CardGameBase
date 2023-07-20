@@ -33,7 +33,7 @@ namespace Characters.Classes {
 			CardManager.CastCard(card);
 		}
 
-		public override void StartTurnTrigger() {
+		public override void StartTurnTrigger(Actor source, List<Actor> enemies) {
 			Dice.RollAll();
 			CardManager.DrawHand(3);
 		}    

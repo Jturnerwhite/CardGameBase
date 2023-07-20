@@ -10,8 +10,8 @@ namespace Cards.Actions {
         }
 
         public void execute(List<Character> targets, Character source) {
-            ThePot res = (ThePot)source.GetResource();
-            res.Brew(targets, source);
+            // ThePot res = (ThePot)source.GetResource();
+            // res.Brew();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cards;
 using Characters;
 using Resources;
@@ -28,15 +29,29 @@ namespace Characters.Classes {
 		}
 
 		public override void CastCard(Card card, List<Character> targets) {
-            if(card.CardType == CardType.Reagent) {
-				Reagent newReag = new Reagent(card.Name, card.Description, card.Cost, card.TargetsNeeded);
-                this.ThePot.AddReagent(newReag);
-            }
-
             CardManager.CastCard(card);
 		}
-		public override void EndTurnTrigger() {
-			//ThePot.Brew();
+
+		private List<Actor> GetTargets(List<Actor> enemies) {
+			List<Actor> actualTargets = new List<Actor>();
+			switch(ThePot.Target) {
+				default:
+					actualTargets.Add(enemies[0]);
+					break;
+			}
+
+			return actualTargets;
+		}
+
+		public void Brew(Actor source, List<Actor> enemies) {
+			ThePot.Brew();
+			List<Actor> targets = ThePot.GetTargets(source, enemies);
+			source.ActionManager.CastCard(ThePot.BrewedCard, source, targets);
+			ThePot.Reset();
+		}
+
+		public override void EndTurnTrigger(Actor source, List<Actor> enemies) {
+			Brew(source, enemies);
 			CardManager.DiscardHand();
 		}
 	}

@@ -1,4 +1,5 @@
 public enum ReagentType {
     Heal,
-    Damage
+    Damage,
+    ChangeTarget
 }

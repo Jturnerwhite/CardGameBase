@@ -5,13 +5,13 @@ using Resources;
 using Cards;
 using Characters.Classes;
 using Saves;
+using System;
 
 namespace Characters {
 
 	// Represents the Character's Stats, not cards
 	// It is however used to determine if cards can be cast, based off its resources.
 	public abstract class Character {
-
 		public string Name { get; set; }
 		public CharacterClass CharacterClass { get; set; }
 		public Health HP { get; set; }
@@ -61,11 +61,11 @@ namespace Characters {
 
 		public abstract List<Resource> GetAllResources();
 
-		public virtual void StartTurnTrigger() {
+		public virtual void StartTurnTrigger(Actor source, List<Actor> enemies) {
 			CardManager.DrawHand(3);
 		}
 
-		public virtual void EndTurnTrigger() {
+		public virtual void EndTurnTrigger(Actor source, List<Actor> enemies) {
 			CardManager.DiscardHand();
 		}
 

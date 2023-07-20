@@ -6,7 +6,7 @@ using Utils;
 
 namespace Cards.Actions {
     public class ChangeTarget : iAction {
-        TargetType Target;
+        public TargetType Target;
         public ChangeTarget(TargetType target) {
             Target = target;
         }
@@ -19,8 +19,7 @@ namespace Cards.Actions {
         }
 
         public void execute(List<Character> targets, Character source) {
-            ThePot res = (ThePot)source.GetResource();
-            res.SetTarget(Target);
+            // Not Used
         }
     }
 }

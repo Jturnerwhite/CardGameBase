@@ -12,6 +12,8 @@ namespace Cards.Actions {
         ChangeTarget,
         Brew,
         ToDeplete,
-        ToReroll
+        ToReroll,
+        ReagentSubactions,
+        ToHeal
     }
 }

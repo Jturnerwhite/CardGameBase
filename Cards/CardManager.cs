@@ -42,7 +42,9 @@ namespace Cards {
         }
 
         public void CastCard(Card card) {
-            DiscardFromHand(card);
+            if(card.CardType != CardType.Virtual) {
+                DiscardFromHand(card);
+            }
         }
 
         public List<Card> DrawHand(int count = 3) {

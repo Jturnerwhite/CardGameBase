@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cards;
 using Cards.Actions;
 using Characters;
@@ -17,29 +18,53 @@ namespace Resources {
         public TargetType Target;
         public List<Reagent> Contents;
 
+        public Card BrewedCard = null;
+
         public ThePot(int amount = 0, int maxAmount = 3) : base(amount, maxAmount, "The Pot", ResourceType.ThePot, Color.red) {
             Contents = new List<Reagent>();
         }
 
-        public void SetTarget(TargetType target) {
+        public List<Reagent> GetContents() {
+            return Contents;
+        }
+
+        public void SetTargetType(TargetType target) {
             Target = target;
         }
 
-        public void AddReagent(Reagent reagent) {
-            Contents.Add(reagent);
+        public void AddReagent(string name, IEnumerable<Tuple<SubActionData, iAction>> actions) {
+            Reagent newReagent = new Reagent() {
+                Name = name,
+                Pieces = new List<ReagentPiece>()
+            };
+            newReagent.Pieces.AddRange(actions.Select(x => new ReagentPiece(){ Origin = x.Item1, Action = x.Item2}));
+
+            Contents.Add(newReagent);
             Amount++;
 
-            Debug.Log($"Reagent Added: {reagent.Name}");
+            Debug.Log($"Reagent Added: {name}");
         }
 
         public void RemoveReagent(int index = -1) {
+            if(index < 0) {
+                index = Contents.Count - 1;
+            }
+
             Contents.RemoveAt(index);
+            Amount--;
         }
 
         // depletion here represents... something?
         public override void DepleteResource(int depletion)
         {
-            List<Reagent> PotContents = new List<Reagent>();
+            if(depletion > Amount) {
+                Contents = new List<Reagent>();
+                Amount = 0;
+            } else {
+                for(int i = depletion; i > 0; i--) {
+                    RemoveReagent(Contents.Count - i);
+                }
+            }
         }
 
         // is there space in The Pot?
@@ -52,45 +77,50 @@ namespace Resources {
 			DepleteResource(cost);
 		}
 
-        public void Brew(List<Character> potentialTargets, Character source) {
-            // determine targets
-            List<Character> actualTargets = CharacterFactory.GetTargets(potentialTargets, source, Target);
+        public void Brew() {
+            Card brewedCard = new Card("", "", new Cost(0), 0);
+            brewedCard.CardType = CardType.Virtual;
+            brewedCard.Actions = new List<iAction>();
+            // start list of all catalysts
 
-            // make list of all effects and their original Reagent
-            List<Tuple<ReagentAction, Reagent>> actionList = ColateReagentActions();
-
-            // Apply all catalysts (TODO: Add catalysts)
-
-            int heals = 0;
-            int damages = 0;
-
-            // go through all actions, totalling effects
-            foreach(var action in actionList) {
-                switch(action.Item1.Type) {
-                    case ReagentType.Heal:
-                    heals += action.Item1.Amount;
-                        break;
-                    case ReagentType.Damage:
-                    damages += action.Item1.Amount;
-                        break;
-                }
-            }
-        }
-
-        private List<Tuple<ReagentAction, Reagent>> ColateReagentActions() {
-            // make list of all effects and their original Reagent
-            List<Tuple<ReagentAction, Reagent>> actionList = new List<Tuple<ReagentAction, Reagent>>();
-            foreach(Reagent reagent in Contents) {
-                foreach(ReagentAction reagentAction in reagent.ReagentActions) {
-                    actionList.Add(Tuple.Create(reagentAction, reagent));
+            foreach(var reagent in Contents) {
+                brewedCard.Name += reagent.Name;
+                foreach(var reagentPiece in reagent.Pieces) {
+                    // if the type of action is one that modifies all others, handle here
+                    if(false) {
+                        // add to list of catalysts
+                    } else if(reagentPiece.Origin.Type == ActionType.ChangeTarget) {
+                        SetTargetType(((ChangeTarget)reagentPiece.Action).Target);
+                    } else {
+                        brewedCard.Actions.Add(reagentPiece.Action);
+                    }
                 }
             }
 
-            return actionList;
+            // apply catalysts
+
+            BrewedCard = brewedCard;
         }
-    
+
+		public List<Actor> GetTargets(Actor source, List<Actor> enemies) {
+			List<Actor> actualTargets = new List<Actor>();
+			switch(Target) {
+				default:
+					actualTargets.Add(enemies[0]);
+					break;
+			}
+
+			return actualTargets;
+		}
+
         private void ApplyCatalysts() {
             // TODO
+        }
+
+        public void Reset() {
+            Contents = new List<Reagent>();
+            Target = TargetType.RandomEnemy;
+            Amount = 0;
         }
     }
 }

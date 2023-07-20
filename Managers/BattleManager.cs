@@ -5,15 +5,16 @@ using UnityEngine.UI;
 using Cards;
 using Characters.Classes;
 
-//D:\UnityGithub\WhiteOpal\CardGame\Assets\Scripts\Combat\ConcreteClasses\Cards
 public class BattleManager : MonoBehaviour {
 
     public Actor[] ClassPrefabs;
     public Actor EnemyBase;
 
+// temp
     public Text DeckDisplay;
     public Text DiscardDisplay;
     public Text FightWin;
+// end temp
 
     public Actor Player {get;set;}
     public Actor Enemy {get;set;}
@@ -47,12 +48,15 @@ public class BattleManager : MonoBehaviour {
 
     public void Initialize() {
         InitPlayer();
-        InitCardManager();
-
-        Enemy = Instantiate(EnemyBase, new Vector3(6, 0), Quaternion.identity) as Actor;
-        Enemy.Initialize(null, null);
+        InitCardUIManager();
+        InitEnemies();
 
         Player.StartTurnTrigger();
+    }
+
+    public void InitEnemies() {
+        Enemy = Instantiate(EnemyBase, new Vector3(6, 0), Quaternion.identity) as Actor;
+        Enemy.Initialize(null, null);
     }
 
     public void InitPlayer() {
@@ -64,7 +68,7 @@ public class BattleManager : MonoBehaviour {
         Player.Initialize(RunManager.Character, RunManager.Deck);
     }
 
-    public void InitCardManager() {
+    public void InitCardUIManager() {
         CardUIManager = Instantiate(CardManagerPrefab, new Vector3(0, -4.5f), Quaternion.identity);
         GetComponent<EventManager>().SetCardManager(CardUIManager);
         CardUIManager.Init(Player.characterStats);
