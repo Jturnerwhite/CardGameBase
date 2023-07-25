@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Cards;
+using Cards.Actions;
 using Characters;
 
 public class ActionManager : MonoBehaviour {
@@ -20,7 +21,13 @@ public class ActionManager : MonoBehaviour {
 
     public void PerformActions(Card card, Character source, List<Character> targets) {
         foreach(var action in card.Actions) {
-            action.execute(targets, source);
+            action.Execute(targets, source);
+        }
+    }
+
+    public void PerformQueuedActions(List<QueuedAction> queuedActions) {
+        foreach(var action in queuedActions) {
+            action.Execute();
         }
     }
 }

@@ -34,12 +34,17 @@ public static class RunManager
 
     public static void CompleteBattle(Character character) {
         Character = character;
-
-        SaveManager.Save(Character, Deck);
+        Save(Character, Deck);
     }
 
     public static void PrepareForBattle(Zone eventZone, Vector3 position) {
         MapPosition = position;
         EventZone = eventZone;
+    }
+
+    public static void Save(Character character, List<CardData> deck) {
+        Character = character;
+        Deck = deck;
+        SaveManager.Save(Character, Deck);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cards;
+using Cards.Actions;
 using Characters;
 using Resources;
 using UnityEngine;
@@ -43,16 +44,25 @@ namespace Characters.Classes {
 			return actualTargets;
 		}
 
-		public void Brew(Actor source, List<Actor> enemies) {
-			ThePot.Brew();
+		public override List<QueuedAction> EndTurnTrigger(Actor source, List<Actor> enemies) {
+			List<QueuedAction> brewedActions = Brew(source, enemies);
+			CardManager.DiscardHand();
+
+			return brewedActions;
+		}
+	
+		public List<QueuedAction> Brew(Actor source, List<Actor> enemies) {
+			Card newBrewedCard = ThePot.Brew();
 			List<Actor> targets = ThePot.GetTargets(source, enemies);
-			source.ActionManager.CastCard(ThePot.BrewedCard, source, targets);
+			List<QueuedAction> queuedActions = new List<QueuedAction>();
+			foreach(var action in newBrewedCard.Actions) {
+				queuedActions.Add(new QueuedAction("Brewed Actions", source.characterStats, targets.Select(x => x.characterStats).ToList(), action));
+			}
+			//source.ActionManager.CastCard(ThePot.BrewedCard, source, targets);
 			ThePot.Reset();
+
+			return queuedActions;
 		}
 
-		public override void EndTurnTrigger(Actor source, List<Actor> enemies) {
-			Brew(source, enemies);
-			CardManager.DiscardHand();
-		}
 	}
 }

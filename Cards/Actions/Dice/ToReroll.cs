@@ -18,7 +18,7 @@ namespace Cards.Actions {
             RerollAmount = Int32.Parse(serializedAction.Value);
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             DiceWrapper resource = (DiceWrapper)source.GetResource();
             Resource[] Dice = ((DiceWrapper)source.GetResource()).GetSubResources();
 

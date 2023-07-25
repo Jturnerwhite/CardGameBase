@@ -15,7 +15,7 @@ namespace Cards.Actions {
             RestoreAmount = Int32.Parse(serializedAction.Value);
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             Resource resource = source.GetResource();
             int maxAmount = resource.GetMaxAmount();
             int currentAmount = resource.GetAmount();

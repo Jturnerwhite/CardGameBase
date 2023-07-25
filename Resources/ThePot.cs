@@ -77,7 +77,7 @@ namespace Resources {
 			DepleteResource(cost);
 		}
 
-        public void Brew() {
+        public Card Brew() {
             Card brewedCard = new Card("", "", new Cost(0), 0);
             brewedCard.CardType = CardType.Virtual;
             brewedCard.Actions = new List<iAction>();
@@ -100,6 +100,7 @@ namespace Resources {
             // apply catalysts
 
             BrewedCard = brewedCard;
+            return BrewedCard;
         }
 
 		public List<Actor> GetTargets(Actor source, List<Actor> enemies) {

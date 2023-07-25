@@ -41,7 +41,7 @@ namespace Cards.Actions {
             Amount = amount;
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             // technically no execution occurs here, and is instead handled by ThePot
         }
     }

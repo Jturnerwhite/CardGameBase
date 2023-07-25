@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Resources;
 using Cards;
+using Cards.Actions;
 using Characters.Classes;
 using Saves;
 using System;
@@ -65,8 +66,10 @@ namespace Characters {
 			CardManager.DrawHand(3);
 		}
 
-		public virtual void EndTurnTrigger(Actor source, List<Actor> enemies) {
+		public virtual List<QueuedAction> EndTurnTrigger(Actor source, List<Actor> enemies) {
 			CardManager.DiscardHand();
+
+			return null;
 		}
 
 		public virtual CharacterSaveData GetCharacterSaveData() {

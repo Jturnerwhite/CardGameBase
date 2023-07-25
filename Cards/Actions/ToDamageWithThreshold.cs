@@ -45,7 +45,7 @@ namespace Cards.Actions {
             Adjustment = parsedAdj;
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             Resource resource = source.GetResource();
             int adjustedValue = (resource.MeetsThreshold(Threshold, IsPercent, CheckType, Adjustment)) ? DamageAmount + Adjustment : DamageAmount;
 

@@ -7,6 +7,7 @@ using Characters;
 using Characters.Classes;
 using Characters.Enemies;
 using Cards;
+using Cards.Actions;
 using UI;
 
 public class Actor : MonoBehaviour
@@ -119,9 +120,11 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	public void EndTurnTrigger() {
+	public List<QueuedAction> EndTurnTrigger() {
 		if(BattleManager) {
-			characterStats.EndTurnTrigger(this, BattleManager.GetAllEnemies());
+			return characterStats.EndTurnTrigger(this, BattleManager.GetAllEnemies());
 		}
+
+		return null;
 	}
 }

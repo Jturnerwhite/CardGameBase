@@ -1,7 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Cards;
+using Cards.Actions;
 using UI;
-using System.Collections.Generic;
 
 public class EventManager : MonoBehaviour {
     private ActionManager ActionManager;
@@ -74,7 +76,10 @@ public class EventManager : MonoBehaviour {
     public void PassTurnClicked() {
         StateManager.PassTurn();
         //CardUIManager.DiscardHand();
-        BattleManager.Player.EndTurnTrigger();
+        List<QueuedAction> playerEndQueuedActions = BattleManager.Player.EndTurnTrigger();
+        if(playerEndQueuedActions != null) {
+            ActionManager.PerformQueuedActions(playerEndQueuedActions);
+        }
 
         foreach(var enemy in BattleManager.GetAllEnemies()) {
             EnemyTurnCommence(enemy);

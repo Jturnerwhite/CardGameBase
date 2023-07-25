@@ -48,7 +48,7 @@ namespace Cards.Actions {
             Source = parsedSource;
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             if(Type == DrawType.Top) {
                 for(int i = 0; i < DrawAmount; i++) {
                     source.CardManager.Draw();

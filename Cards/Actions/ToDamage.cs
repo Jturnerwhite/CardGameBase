@@ -20,7 +20,7 @@ namespace Cards.Actions {
             }
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             foreach(var target in targets) {
                 target.ApplyDamage(DamageAmount);
             }

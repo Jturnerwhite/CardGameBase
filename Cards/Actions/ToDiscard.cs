@@ -37,7 +37,7 @@ namespace Cards.Actions {
             Type = parsedType;
         }
 
-        public void execute(List<Character> targets, Character source) {
+        public void Execute(List<Character> targets, Character source) {
             if(DiscardAmount == -1) {
                 source.CardManager.DiscardHand();
             }
