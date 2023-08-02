@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Resources;
 using Cards;
 using Cards.Actions;
 using Characters.Classes;
+using StatusEffects;
 using Saves;
 using System;
 
@@ -19,10 +21,15 @@ namespace Characters {
 
 		public CardManager CardManager;
 
+		public List<StatusEffect> StatusEffects;
+
+		private Actor ActorLink { get; set; }
+
 		public Character(string name, int maxHP = 100, CharacterClass characterClass = CharacterClass.None) {
 			Name = name;
 			HP = new Health(maxHP, maxHP);
 			this.CharacterClass = characterClass;
+			this.StatusEffects = new List<StatusEffect>();
 			CardManager = new CardManager();
 			CardManager.Init(null);
 		}
@@ -38,8 +45,55 @@ namespace Characters {
 			CardManager.Init(CardFactory.ConstructDeck(cardData));
 		}
 
+		public virtual void SetActorLink(Actor actor) {
+			this.ActorLink = actor;
+		}
+
 		public virtual void ApplyDamage(int amount) {
 			HP.DepleteResource(amount);
+			DamageTrigger(amount);
+		}
+
+		public virtual void ApplyHealing(int amount) {
+			HP.SupplyResource(amount, false);
+			HealingTrigger(amount);
+		}
+
+		public virtual void DamageTrigger(int amount) {
+			if(ActorLink) {
+				ActorLink.TriggerDamageTaken(amount);
+			}
+		}
+
+		public virtual void HealingTrigger(int amount) {
+			if(ActorLink) {
+				ActorLink.TriggerHealing(amount);
+			}
+		}
+
+		public virtual void AddStatusEffect(StatusEffect newEffect) {
+			StatusEffect existing = StatusEffects.Find(x => x.Type == newEffect.Type || x.Name == newEffect.Name);
+			if(existing != null) {
+				existing.Count += newEffect.Count;
+			} else {
+				StatusEffects.Add(newEffect);
+			}
+		}
+
+		public virtual void RemoveStatusEffect(string name) {
+			StatusEffect matching = StatusEffects.Find(x => x.Name == name);
+			if(matching != null) {
+				RemoveStatusEffect(matching);
+			}
+		}
+		public virtual void RemoveStatusEffect(StatusEffectData effectData) {
+			StatusEffect matching = StatusEffects.Find(x => x.Type == effectData);
+			if(matching != null) {
+				RemoveStatusEffect(matching);
+			}
+		}
+		public virtual void RemoveStatusEffect(StatusEffect effectToRemove) {
+			StatusEffects.Remove(effectToRemove);
 		}
 
 		public virtual void SetDeck(List<Card> startingDeck) {
@@ -58,18 +112,31 @@ namespace Characters {
 
 		public virtual void CastCard(Card card, List<Character> targets) {
 			CardManager.CastCard(card);
+
+			TriggerStatusEffects(StatusEffectTriggerTiming.OnSourceCast);
 		}
 
 		public abstract List<Resource> GetAllResources();
 
 		public virtual void StartTurnTrigger(Actor source, List<Actor> enemies) {
+			TriggerStatusEffects(StatusEffectTriggerTiming.OnTurnStart);
 			CardManager.DrawHand(3);
 		}
 
 		public virtual List<QueuedAction> EndTurnTrigger(Actor source, List<Actor> enemies) {
+			TriggerStatusEffects(StatusEffectTriggerTiming.OnTurnEnd);
 			CardManager.DiscardHand();
 
 			return null;
+		}
+
+		public virtual void TriggerStatusEffects(StatusEffectTriggerTiming timing) {
+			for(var i = 0; i < StatusEffects.Count; i++) {
+				StatusEffects[i].TriggerWithSelfTarget(this);
+			}
+			// foreach(var effect in StatusEffects.Where(x => x.Type.Timing == timing)) {
+			// 	effect.TriggerWithSelfTarget(this); //only self for now
+			// }
 		}
 
 		public virtual CharacterSaveData GetCharacterSaveData() {

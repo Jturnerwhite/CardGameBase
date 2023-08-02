@@ -30,12 +30,14 @@ namespace Characters.Classes {
 
 		public override void CastCard(Card card, List<Character> targets) {
 			Dice.PayCost(card.Cost.Amount, card.Cost.AmountCheckType);
-			CardManager.CastCard(card);
+
+			base.CastCard(card, targets);
 		}
 
 		public override void StartTurnTrigger(Actor source, List<Actor> enemies) {
 			Dice.RollAll();
-			CardManager.DrawHand(3);
+
+			base.StartTurnTrigger(source, enemies);
 		}    
 	}
 }

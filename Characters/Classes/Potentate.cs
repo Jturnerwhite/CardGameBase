@@ -46,7 +46,8 @@ namespace Characters.Classes {
 
 		public override List<QueuedAction> EndTurnTrigger(Actor source, List<Actor> enemies) {
 			List<QueuedAction> brewedActions = Brew(source, enemies);
-			CardManager.DiscardHand();
+			
+			base.EndTurnTrigger(source, enemies);
 
 			return brewedActions;
 		}

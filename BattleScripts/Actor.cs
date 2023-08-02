@@ -27,6 +27,7 @@ public class Actor : MonoBehaviour
 	public List<ResourceUI> ourResources { get; set; }
 
 	public Transform resourceAnchor;
+	public SplotchMaker SplotchMaker;
 
 	public void Initialize(Character stats, List<CardData> cards) {
 		if(stats == null) {
@@ -42,6 +43,7 @@ public class Actor : MonoBehaviour
 
 		Debug.Log($"INIT ACTOR CHAR : {characterStats.Name}");
 		characterStats.SetCardManager(CardFactory.GetDeckData(CharacterClass.None).Cards);
+		characterStats.SetActorLink(this);
 
 		ourResources = new List<ResourceUI>();
 		MakeResourceBars();
@@ -112,6 +114,16 @@ public class Actor : MonoBehaviour
 
 	public bool CanCast(Card card) {
 		return characterStats.CanCastCard(card);
+	}
+
+	public void TriggerDamageTaken(int amount) {
+		// do damage animation
+		SplotchMaker.SpawnSplotch(true, amount);
+	}
+
+	public void TriggerHealing(int amount) {
+		// do heal animation
+		SplotchMaker.SpawnSplotch(false, amount);
 	}
 
 	public void StartTurnTrigger() {

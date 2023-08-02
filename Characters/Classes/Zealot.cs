@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cards;
 using Characters;
 using Resources;
+using StatusEffects;
 
 namespace Characters.Classes {
 	public class Zealot : Character {
@@ -28,7 +29,15 @@ namespace Characters.Classes {
 			if(CanCastCard(card)) {
 				HP.PayCost(card.Cost.Amount);
 			}
-			CardManager.CastCard(card);
+
+			base.CastCard(card, targets);
 		}
+
+        public override void StartTurnTrigger(Actor source, List<Actor> enemies)
+        {
+			this.AddStatusEffect(StatusEffectFactory.GetStatusEffect("Regen", 1));
+            base.StartTurnTrigger(source, enemies);
+        }
+    
 	}
 }

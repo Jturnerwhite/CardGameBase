@@ -32,12 +32,13 @@ namespace Characters.Classes {
 				Stamina.PayCost(card.Cost.Amount);
 			}
 
-			CardManager.CastCard(card);
+			base.CastCard(card, targets);
 		}
 
 		public override void StartTurnTrigger(Actor source, List<Actor> enemies) {
 			Stamina.SupplyResource(5);
-			CardManager.DrawHand(3);
+
+			base.StartTurnTrigger(source, enemies);
 		}
 	}
 }

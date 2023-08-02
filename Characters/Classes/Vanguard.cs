@@ -42,7 +42,8 @@ namespace Characters.Classes {
 			if(CanCastCard(card)) {
 				Armor.PayCost(card.Cost.Amount);
 			}
-			CardManager.CastCard(card);
+
+			base.CastCard(card, targets);
 		}
 	}
 }

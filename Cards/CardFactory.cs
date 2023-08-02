@@ -4,11 +4,44 @@ using Characters.Classes;
 using Cards.Actions;
 using System;
 using Saves;
+using UnityEditor;
 
 namespace Cards 
 {
     public static class CardFactory 
     {
+        public static List<CardData> BaseCardData;
+
+        public static Card GetCard(string name) {
+            try {
+                CardData match;
+
+                if(BaseCardData == null) {
+                    BaseCardData = new List<CardData>();
+                    //string[] foundCardName = AssetDatabase.GUIDToAssetPath(//(new[] { "Assets/Resources/Scriptables/SerializedCards" });
+                } else {
+                    match = BaseCardData.Find(x => x.Name == name);
+                    if(match != null) {
+                        return ConstructCard(match);
+                    }
+                }
+
+                string[] matchingNames = AssetDatabase.FindAssets(name, new[] { "Assets/Resources/Scriptables/SerializedCards" });
+                string path = AssetDatabase.GUIDToAssetPath(matchingNames[0]);
+                match = AssetDatabase.LoadAssetAtPath<CardData>(path);
+                if(match != null) {
+                    BaseCardData.Add(match);
+                    return ConstructCard(match);
+                }
+
+                return null;
+            } catch(Exception e) {
+                Debug.LogError($"ERROR: CardFactory.GetCard() card not found: {name}");
+                Debug.LogError(e.Message);
+                return null;
+            }
+        }
+
         public static List<Card> GetDeck(CharacterClass type, bool defaultDeck = true) {
             return ConstructDeck(GetDeckData(type));
         }
@@ -52,54 +85,9 @@ namespace Cards
             Card output = new Card(serializedCard);
             output.Actions = new List<iAction>();
             foreach(var serializedAction in serializedCard.Actions) {
-                output.Actions.Add(ConstructAction(serializedAction, output));
+                output.Actions.Add(ActionFactory.ConstructAction(serializedAction, output));
             }
             return output;
-        }
-
-        public static iAction ConstructAction(ActionData serializedAction, Card card = null) {
-            switch(serializedAction.Type) {
-                case ActionType.ToDamage:
-                    return new ToDamage(serializedAction);
-                case ActionType.ToDamageWithThreshold:
-                    return new ToDamageWithThreshold(serializedAction);
-                case ActionType.ToDiscard:
-                    return new ToDiscard(serializedAction);
-                case ActionType.ToDraw:
-                    return new ToDraw(serializedAction);
-                case ActionType.ToRestore:
-                    return new ToRestore(serializedAction);
-                case ActionType.ToHeal:
-                    return new ToHeal(serializedAction);
-                case ActionType.ReagentAction:
-                    return new ReagentAction(serializedAction);
-                case ActionType.ChangeTarget:
-                    return new ChangeTarget(serializedAction);
-                case ActionType.Brew:
-                    return new Brew();
-                case ActionType.ToDeplete:
-                    return new ToDeplete(serializedAction);
-                case ActionType.ToReroll:
-                    return new ToReroll(serializedAction);
-                case ActionType.ReagentSubactions:
-                    return new ReagentSubactions(card.Name, serializedAction, ConstructAllSubactions(serializedAction, card));
-                default:
-                    return new ToRestore(0);
-            }
-        }
-
-        public static List<iAction> ConstructAllSubactions(ActionData serializedAction, Card card = null) {
-            List<iAction> subActions = new List<iAction>();
-
-            foreach(var subActionData in serializedAction.SubActions) {
-                ActionData newData = new ActionData() {
-                    Type = subActionData.Type,
-                    Value = subActionData.Value
-                };
-                subActions.Add(ConstructAction(newData, card));
-            }
-
-            return subActions;
         }
     }
 }
