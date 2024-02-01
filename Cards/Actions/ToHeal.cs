@@ -16,16 +16,13 @@ namespace Cards.Actions {
         }
 
         public void Execute(List<Character> targets, Character source) {
-            Resource resource = source.HP;
-            int maxAmount = resource.GetMaxAmount();
-            int currentAmount = resource.GetAmount();
-
-            // move overflow logic to the Resource
-            if (currentAmount + RestoreAmount <= maxAmount) {
-                resource.SupplyResource(RestoreAmount);
-            } else {
-                resource.SetAmount(maxAmount);
+            foreach(var target in targets) {
+                ExecuteHeal(target);
             }
+        }
+
+        private void ExecuteHeal(Character target) {
+            target.ApplyHealing(RestoreAmount);
         }
     }
 }

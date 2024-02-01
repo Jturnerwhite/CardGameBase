@@ -12,29 +12,38 @@ namespace Cards
     {
         public static List<CardData> BaseCardData;
 
+        public static CardData GetCardData(string name) {
+            CardData match;
+
+            if(BaseCardData == null) {
+                BaseCardData = new List<CardData>();
+            } else {
+                match = BaseCardData.Find(x => x.Name == name);
+                if(match != null) {
+                    return match;
+                }
+            }
+
+            string[] matchingNames = AssetDatabase.FindAssets(name, new[] { "Assets/Resources/Scriptables/SerializedCards" });
+            string path = AssetDatabase.GUIDToAssetPath(matchingNames[0]);
+            match = AssetDatabase.LoadAssetAtPath<CardData>(path);
+            if(match != null) {
+                BaseCardData.Add(match);
+                return match;
+            }
+
+            return null;
+        }
+
         public static Card GetCard(string name) {
             try {
-                CardData match;
+                CardData match = GetCardData(name);
 
-                if(BaseCardData == null) {
-                    BaseCardData = new List<CardData>();
-                    //string[] foundCardName = AssetDatabase.GUIDToAssetPath(//(new[] { "Assets/Resources/Scriptables/SerializedCards" });
-                } else {
-                    match = BaseCardData.Find(x => x.Name == name);
-                    if(match != null) {
-                        return ConstructCard(match);
-                    }
-                }
-
-                string[] matchingNames = AssetDatabase.FindAssets(name, new[] { "Assets/Resources/Scriptables/SerializedCards" });
-                string path = AssetDatabase.GUIDToAssetPath(matchingNames[0]);
-                match = AssetDatabase.LoadAssetAtPath<CardData>(path);
-                if(match != null) {
-                    BaseCardData.Add(match);
+                if(match) {
                     return ConstructCard(match);
+                } else {
+                    return null;
                 }
-
-                return null;
             } catch(Exception e) {
                 Debug.LogError($"ERROR: CardFactory.GetCard() card not found: {name}");
                 Debug.LogError(e.Message);

@@ -30,6 +30,10 @@ namespace Cards.Actions {
                     return new ToReroll(serializedAction);
                 case ActionType.ReagentSubactions:
                     return new ReagentSubactions(card.Name, serializedAction, ConstructAllSubactions(serializedAction, card));
+                case ActionType.ToApplyStatus:
+                    return new ToApplyStatus(serializedAction);
+                case ActionType.ToRemoveStatus:
+                    return new ToRemoveStatus(serializedAction);
                 default:
                     return new ToRestore(0);
             }

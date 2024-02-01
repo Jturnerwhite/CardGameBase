@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Cards.Actions;
 using Characters;
 using Utils;
@@ -31,16 +32,17 @@ namespace StatusEffects {
         }
 
         public void TriggerWithTargets(List<Character> targets, Character source) {
+            Debug.Log($"Trigger {this.Name} for {this.Count} times");
             for(int i = 0; i < Count; i++) {
                 foreach(var action in TriggerredActions) {
                     action.Execute(targets, source);
                 }
             }
 
-            Count--;
-            if(Count <= 0) {
-                source.RemoveStatusEffect(this);
-            }
+            // Count--;
+            // if(Count <= 0) {
+            //     source.RemoveStatusEffect(this);
+            // }
         }
     }
 }

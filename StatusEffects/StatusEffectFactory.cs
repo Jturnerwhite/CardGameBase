@@ -40,7 +40,7 @@ namespace StatusEffects {
             return null;
         }
     
-        public static StatusEffect GetStatusEffect(string name, int count = 0) {
+        public static StatusEffect GetStatusEffect(string name, int count = 1) {
             StatusEffectData baseData = GetStatusEffectData(name);
             if(baseData == null) {
                 return null;

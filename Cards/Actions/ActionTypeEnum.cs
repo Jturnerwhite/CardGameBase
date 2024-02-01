@@ -14,6 +14,8 @@ namespace Cards.Actions {
         ToDeplete,
         ToReroll,
         ReagentSubactions,
-        ToHeal
+        ToHeal,
+        ToApplyStatus,
+        ToRemoveStatus
     }
 }

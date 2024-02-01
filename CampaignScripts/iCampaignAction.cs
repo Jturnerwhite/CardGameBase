@@ -3,7 +3,7 @@ using Characters;
 using Cards;
 
 namespace Campaign {
-    public interface iCampaignEvent {
+    public interface iCampaignAction {
         void execute(Character Character, List<CardData> Deck);
     }
 }

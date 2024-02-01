@@ -53,7 +53,7 @@ public class Actor : MonoBehaviour
 			ActionManager = Camera.main.GetComponent<ActionManager>();
 		}
 		catch(Exception e) {
-			
+			Debug.LogError(e.Message);
 		}
 	}
 
@@ -65,7 +65,7 @@ public class Actor : MonoBehaviour
 			ActionManager = Camera.main.GetComponent<ActionManager>();
 		}
 		catch(Exception e) {
-			
+			Debug.LogError(e.Message);
 		}
 	}
 
@@ -118,12 +118,12 @@ public class Actor : MonoBehaviour
 
 	public void TriggerDamageTaken(int amount) {
 		// do damage animation
-		SplotchMaker.SpawnSplotch(true, amount);
+		SplotchMaker.QueueSplotch(true, amount);
 	}
 
 	public void TriggerHealing(int amount) {
 		// do heal animation
-		SplotchMaker.SpawnSplotch(false, amount);
+		SplotchMaker.QueueSplotch(false, amount);
 	}
 
 	public void StartTurnTrigger() {

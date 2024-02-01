@@ -72,6 +72,7 @@ namespace Characters {
 		}
 
 		public virtual void AddStatusEffect(StatusEffect newEffect) {
+			Debug.Log($"Status Effect Added: {newEffect.Name} ({newEffect.Count})");
 			StatusEffect existing = StatusEffects.Find(x => x.Type == newEffect.Type || x.Name == newEffect.Name);
 			if(existing != null) {
 				existing.Count += newEffect.Count;
@@ -80,20 +81,29 @@ namespace Characters {
 			}
 		}
 
-		public virtual void RemoveStatusEffect(string name) {
+		public virtual void RemoveStatusEffect(string name, int amount = 0) {
 			StatusEffect matching = StatusEffects.Find(x => x.Name == name);
 			if(matching != null) {
-				RemoveStatusEffect(matching);
+				RemoveStatusEffect(matching, amount);
 			}
 		}
-		public virtual void RemoveStatusEffect(StatusEffectData effectData) {
+		public virtual void RemoveStatusEffect(StatusEffectData effectData, int amount = 0) {
 			StatusEffect matching = StatusEffects.Find(x => x.Type == effectData);
 			if(matching != null) {
-				RemoveStatusEffect(matching);
+				RemoveStatusEffect(matching, amount);
 			}
 		}
-		public virtual void RemoveStatusEffect(StatusEffect effectToRemove) {
-			StatusEffects.Remove(effectToRemove);
+		public virtual void RemoveStatusEffect(StatusEffect effectToRemove, int amount = 0) {
+            Debug.Log($"RemoveStatusEffect {effectToRemove.Name} by {amount}");
+            Debug.Log($"RemoveStatusEffect current count{effectToRemove.Count}");
+			if(amount == -1) {
+				StatusEffects.Remove(effectToRemove);
+			} else if(amount == 0) {
+				effectToRemove.Count--;
+			} else {
+				effectToRemove.Count -= amount;
+			}
+            Debug.Log($"RemoveStatusEffect new count{effectToRemove.Count}");
 		}
 
 		public virtual void SetDeck(List<Card> startingDeck) {
@@ -119,6 +129,7 @@ namespace Characters {
 		public abstract List<Resource> GetAllResources();
 
 		public virtual void StartTurnTrigger(Actor source, List<Actor> enemies) {
+			Debug.Log($"Status Effect Count: {this.StatusEffects.Count}");
 			TriggerStatusEffects(StatusEffectTriggerTiming.OnTurnStart);
 			CardManager.DrawHand(3);
 		}
@@ -131,12 +142,12 @@ namespace Characters {
 		}
 
 		public virtual void TriggerStatusEffects(StatusEffectTriggerTiming timing) {
-			for(var i = 0; i < StatusEffects.Count; i++) {
-				StatusEffects[i].TriggerWithSelfTarget(this);
-			}
-			// foreach(var effect in StatusEffects.Where(x => x.Type.Timing == timing)) {
-			// 	effect.TriggerWithSelfTarget(this); //only self for now
+			// for(var i = 0; i < StatusEffects.Count; i++) {
+			// 	StatusEffects[i].TriggerWithSelfTarget(this);
 			// }
+			foreach(var effect in StatusEffects.Where(x => x.Type.Timing == timing)) {
+				(new StatusEffect(effect.Name, effect.Type, effect.Count)).TriggerWithSelfTarget(this); //only self for now
+			}
 		}
 
 		public virtual CharacterSaveData GetCharacterSaveData() {
